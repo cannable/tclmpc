@@ -99,6 +99,14 @@ Enable or disable repeat mode.
 When on, stop playback after the current track. If repeat is on, repeat the
 current track.
 
+#### mpd config setvol {vol}
+
+Arguments:
+
+* vol - Output volume, from 0-100
+
+Set the output volume.
+
 ### Utility
 
 #### mpd connect {server port}
@@ -285,14 +293,6 @@ Arguments:
 * s - seconds
 
 Set the crossfade duration.
-
-#### mpd config setvol {vol}
-
-Arguments:
-
-* vol - Output volume, from 0-100
-
-Set the output volume.
 
 #### mpd config replaygain {state}
 

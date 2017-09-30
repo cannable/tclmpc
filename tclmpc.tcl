@@ -171,6 +171,7 @@ namespace eval comm {
             }
         }
 
+        lappend message "$line"
         # There's more data to get, read from the socket until we get an 'OK'
         while {![string match OK $line]} {
             gets $mpd_socket line
@@ -857,6 +858,46 @@ namespace eval mpd {
             }
 
             debug "single>Succeeded in changing single"
+            return 0
+        }
+
+
+        # mpd::config::setvol --
+        #
+        #           Set the output volume
+        #
+        # Arguments:
+        #           vol Output volume. 0-100
+        #
+        # Results:
+        #           Returns 0 if the volume change was successful; 1 otherwise
+        #
+        proc setvol {vol} {
+            # Validate 'vol'
+            if {![string is integer $vol]} {
+                return 1
+            }
+
+            if {($vol<0) | ($vol>100)} {
+                return 1
+            }
+
+            # Send the config change command
+            set msg [comm::sendCommand "setvol $vol"]
+
+            # Check for error state
+            if {[string match {ACK*} $msg]} {
+                return 1
+            }
+
+            # Verify the config change happened
+            set mpdvol [msg::getValue [mpd info status] volume]
+            if {$mpdvol!=$vol} {
+                debug "single>Failed to set volume"
+                return 1
+            }
+
+            debug "single>Succeeded in setting volume"
             return 0
         }
 
