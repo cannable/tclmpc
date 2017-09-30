@@ -775,6 +775,49 @@ namespace eval mpd {
         }
 
 
+        # mpd::config::repeat --
+        #
+        #           Enables/Disables repeat mode
+        #
+        # Arguments:
+        #           on  Boolean
+        #
+        # Results:
+        #           Returns 0 if the config change was successful; 1 otherwise
+        #
+        proc repeat {on} {
+            # Validate 'on'
+            if {![string is boolean $on]} {
+                return 1
+            }
+
+            # Since we can take different booleans, send MPD 1 or 0
+            if {$on} {
+                set sendValue 1
+            } else {
+                set sendValue 0
+            }
+
+            # Send the config change command
+            set msg [comm::sendCommand "repeat $sendValue"]
+
+            # Check for error state
+            if {[string match {ACK*} $msg]} {
+                return 1
+            }
+
+            # Verify the config change happened
+            set consume [msg::getValue [mpd info status] repeat]
+            if {$consume!=$sendValue} {
+                debug "repeat>Failed to change repeat"
+                return 1
+            }
+
+            debug "repeat>Succeeded in changing repeat"
+            return 0
+        }
+
+
         namespace export *
         namespace ensemble create
     }

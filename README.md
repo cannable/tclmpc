@@ -90,6 +90,10 @@ Enables/disables consume mode.
 
 Enable or disable random playback mode.
 
+#### mpd config repeat {on}
+
+Enable or disable repeat mode.
+
 ### Utility
 
 #### mpd connect {server port}
@@ -276,10 +280,6 @@ Arguments:
 * s - seconds
 
 Set the crossfade duration.
-
-#### mpd config repeat {on}
-
-Enable or disable repeat mode.
 
 #### mpd config setvol {vol}
 
