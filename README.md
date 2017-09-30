@@ -156,7 +156,11 @@ Returned keys include:
 * playtime
 * songs
 
-#### mpd info isplaying {}
+### 'Is'
+
+These are helper functions to make writing if statements easier.
+
+#### mpd is playing {}
 
 Returns 1 when MPD is playing; 0 otherwise.
 

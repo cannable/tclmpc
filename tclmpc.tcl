@@ -390,7 +390,15 @@ namespace eval mpd {
             return $msg
         }
 
-        # mpd::info::isplaying --
+
+        namespace export *
+        namespace ensemble create
+    }
+
+
+    namespace eval is {
+
+        # mpd::is::playing --
         #
         #           See if MPD is playing
         #
@@ -400,7 +408,7 @@ namespace eval mpd {
         # Results:
         #           Returns 1 if MPD is playing
         #
-        proc isplaying {} {
+        proc playing {} {
             set state [msg::getValue [mpd info status] state]
 
             if {[string match play $state]} {
@@ -412,9 +420,11 @@ namespace eval mpd {
             return 0
         }
 
+
         namespace export *
         namespace ensemble create
     }
+
 
 
     # mpd::ping --
