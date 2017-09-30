@@ -550,12 +550,18 @@ namespace eval mpd {
     #           will pause.
     #
     proc toggle {} {
-        if {[mpd info isplaying]} {
+        if {[mpd is playing]} {
             debug Pausing
             mpd pause 1
         } else {
-            debug Unpausing
-            mpd pause 0
+            if {[mpd is stopped]} {
+                # Play the current song
+                set songpos [msg::getValue [mpd info status] Pos]
+                mpd play $songpos
+            } else {
+                debug Unpausing
+                mpd pause 0
+            }
         }
     }
 
