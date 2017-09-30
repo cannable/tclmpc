@@ -390,7 +390,28 @@ namespace eval mpd {
             return $msg
         }
 
-        namespace export rights currentsong status stats
+        # mpd::info::isplaying --
+        #
+        #           See if MPD is playing
+        #
+        # Arguments:
+        #           none
+        #
+        # Results:
+        #           Returns 1 if MPD is playing
+        #
+        proc isplaying {} {
+            set state [msg::getValue [mpd info status] state]
+
+            if {[string match play $state]} {
+                puts playing
+                return 1
+            }
+
+            return 0
+        }
+
+        namespace export rights currentsong status stats isplaying
         namespace ensemble create
     }
 

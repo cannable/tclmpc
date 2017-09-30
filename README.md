@@ -152,6 +152,10 @@ Returned keys include:
 * playtime
 * songs
 
+#### mpd info isplaying {}
+
+Returns 1 when MPD is playing; 0 otherwise.
+
 ## Work In Progress/To-Do List
 
 ### Playback Control
