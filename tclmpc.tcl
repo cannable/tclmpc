@@ -404,10 +404,11 @@ namespace eval mpd {
             set state [msg::getValue [mpd info status] state]
 
             if {[string match play $state]} {
-                puts playing
+                debug isplaying
                 return 1
             }
 
+            debug isnotplaying
             return 0
         }
 
@@ -521,10 +522,12 @@ namespace eval mpd {
     #
     proc toggle {} {
         if {[mpd info isplaying]} {
+            debug Pausing
             mpd pause 1
+        } else {
+            debug Unpausing
+            mpd pause 0
         }
-
-        mpd pause 0
     }
 
 
