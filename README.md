@@ -152,6 +152,10 @@ Returned keys include:
 
 ### Playback Control
 
+#### mpd play {songpos}
+
+Start playing song at songpos in the playback queue.
+
 #### mpd toggle {}
 
 Toggle playback.

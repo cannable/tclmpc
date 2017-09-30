@@ -269,7 +269,10 @@ namespace eval msg {
 
     # msg::getValue --
     #
-    #           Given a reply string, return the value for the passed, key
+    #           Given a reply string, return the value for the passed, key.
+    #           This is a really stupid function, as it could match against a
+    #           value and the next pair's key. This should be fine within the
+    #           context of MPD, but I'm probably going to re-write it.
     #
     # Arguments:
     #           msg list-format reply string
@@ -279,6 +282,7 @@ namespace eval msg {
     #           Otherwise, the value of the requested key
     #
     proc getValue {reply key} {
+        # TODO: Re-write this so that it is less stupid
         set index [lsearch $reply $key]
 
         if {$index < 0} {
@@ -527,6 +531,28 @@ namespace eval mpd {
     }
 
 
+    # mpd::play --
+    #
+    #           Play song at songpos from the queue
+    #
+    # Arguments:
+    #           songpos Song index in the playback queue
+    #
+    # Results:
+    #           MPD will start playing the requested song
+    #
+    proc play {songpos} {
+        set msg [comm::sendCommand "play $songpos"]
+
+        # Check for error state
+        if {[string match {ACK*} $msg]} {
+            return 1
+        }
+
+        return 0
+    }
+
+
     # mpd::stop --
     #
     #           Stop playback
@@ -548,7 +574,7 @@ namespace eval mpd {
         return 0
     }
 
-    namespace export info connect disconnect ping pause next prev stop
+    namespace export info connect disconnect ping pause next prev play stop
     namespace ensemble create
 }
 
