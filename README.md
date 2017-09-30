@@ -67,6 +67,15 @@ Start playing song at songpos in the playback queue.
 
 Stops playback.
 
+#### mpd seek {s}
+
+Arguments:
+
+* s - seconds, "fractions allowed"
+
+Seek forward or backward the passed number of seconds in the current song. The
+argument, s, must be a double and can be negative (to seek backwards).
+
 ### Utility
 
 #### mpd connect {server port}
@@ -169,16 +178,6 @@ Returns 1 when MPD is playing; 0 otherwise.
 Returns 1 when MPD is stopped; 0 otherwise.
 
 ## Work In Progress/To-Do List
-
-### Playback Control
-
-#### mpd seek {s}
-
-Arguments:
-
-* s - seconds, "fractions allowed"
-
-Seek forward by the passed number of seconds in the current song.
 
 ### Playlists
 

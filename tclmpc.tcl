@@ -653,6 +653,39 @@ namespace eval mpd {
         return 0
     }
 
+
+    # mpd::seek --
+    #
+    #           Seek in the current song
+    #
+    # Arguments:
+    #           s   Seconds to seek. Can be negative and fractional.
+    #
+    # Results:
+    #           Returns 0 if the seek was successful, 1 otherwise.
+    #
+    proc seek {s} {
+        # Immediately bail if we're not playing
+        if {![mpd is playing]} {
+            return 1
+        }
+
+        # Likewise, bail if we didn't get a double in s
+        if {![string is double $s]} {
+            error "Seek seconds must be a double.'
+        }
+
+        set msg [comm::sendCommand "seekcur $s"]
+
+        # Check for error state
+        if {[string match {ACK*} $msg]} {
+            return 1
+        }
+
+        return 0
+    }
+
+
     namespace export *
     namespace ensemble create
 }
