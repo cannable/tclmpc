@@ -76,6 +76,16 @@ Arguments:
 Seek forward or backward the passed number of seconds in the current song. The
 argument, s, must be a double and can be negative (to seek backwards).
 
+### Options
+
+Common variables:
+
+* on - boolean: on=1, off=0
+
+#### mpd config consume {on}
+
+Enables/disables consume mode.
+
 ### Utility
 
 #### mpd connect {server port}
@@ -254,10 +264,6 @@ Remove the song at songpos from the queue.
 Common variables:
 
 * on - boolean: on=1, off=0
-
-#### mpd config consume {on}
-
-Arguments:
 
 #### mpd config crossfade {s}
 
