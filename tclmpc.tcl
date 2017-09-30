@@ -982,7 +982,33 @@ namespace eval mpd {
         namespace ensemble create
     }
 
+    namespace eval queue {
 
+
+        # mpd::queue::clear --
+        #
+        #           Purge the play queue
+        #
+        # Arguments:
+        #           none
+        #
+        # Results:
+        #           Returns 0 if the queue was purged; 1 otherwise
+        #
+        proc clear {} {
+            set msg [comm::sendCommand "clear"]
+
+            # Check for error state
+            if {[string match {ACK*} $msg]} {
+                return 1
+            }
+
+            return 0
+        }
+
+        namespace export *
+        namespace ensemble create
+    }
     namespace export *
     namespace ensemble create
 }

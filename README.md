@@ -123,6 +123,12 @@ Arguments:
 
 Change the state of Replaygain.
 
+### Queue
+
+#### mpd queue clear {}
+
+Clear the playback queue.
+
 ### Utility
 
 #### mpd connect {server port}
@@ -278,10 +284,6 @@ Arguments:
 
 Add the song(s) at uri to the playback queue. If the passed uri is a directory,
 adds tracks recursively.
-
-#### mpd queue clear {}
-
-Clear the playback queue.
 
 #### mpd queue delete {songpos}
 
