@@ -411,7 +411,7 @@ namespace eval mpd {
             return 0
         }
 
-        namespace export rights currentsong status stats isplaying
+        namespace export *
         namespace ensemble create
     }
 
@@ -595,7 +595,7 @@ namespace eval mpd {
         return 0
     }
 
-    namespace export info connect disconnect ping pause next prev play stop
+    namespace export *
     namespace ensemble create
 }
 
