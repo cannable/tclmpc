@@ -55,6 +55,10 @@ Play the next track in the queue.
 
 Play the previous track from the queue.
 
+#### mpd play {songpos}
+
+Start playing song at songpos in the playback queue.
+
 #### mpd stop {}
 
 Stops playback.
@@ -151,10 +155,6 @@ Returned keys include:
 ## Work In Progress/To-Do List
 
 ### Playback Control
-
-#### mpd play {songpos}
-
-Start playing song at songpos in the playback queue.
 
 #### mpd toggle {}
 
