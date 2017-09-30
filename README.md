@@ -107,6 +107,14 @@ Arguments:
 
 Set the output volume.
 
+#### mpd config crossfade {s}
+
+Arguments:
+
+* s - seconds
+
+Set the crossfade duration.
+
 ### Utility
 
 #### mpd connect {server port}
@@ -285,14 +293,6 @@ Remove the song at songpos from the queue.
 Common variables:
 
 * on - boolean: on=1, off=0
-
-#### mpd config crossfade {s}
-
-Arguments:
-
-* s - seconds
-
-Set the crossfade duration.
 
 #### mpd config replaygain {state}
 

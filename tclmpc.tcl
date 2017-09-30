@@ -902,6 +902,42 @@ namespace eval mpd {
         }
 
 
+        # mpd::config::crossfade --
+        #
+        #           Set the crossfade duration
+        #
+        # Arguments:
+        #           s   Crossfade duration in seconds
+        #
+        # Results:
+        #           Returns 0 if the change was successful; 1 otherwise
+        #
+        proc crossfade {s} {
+            # Validate 's'
+            if {![string is double $s]} {
+                return 1
+            }
+
+            # Send the config change command
+            set msg [comm::sendCommand "crossfade $s"]
+
+            # Check for error state
+            if {[string match {ACK*} $msg]} {
+                return 1
+            }
+
+            # Verify the config change happened
+            set xfade [msg::getValue [mpd info status] xfade]
+            if {$xfade!=$s} {
+                debug "single>Failed to set crossfade duration"
+                return 1
+            }
+
+            debug "single>Succeeded in setting crossfade duration"
+            return 0
+        }
+
+
         namespace export *
         namespace ensemble create
     }
