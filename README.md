@@ -86,6 +86,10 @@ Common variables:
 
 Enables/disables consume mode.
 
+#### mpd config random {on}
+
+Enable or disable random playback mode.
+
 ### Utility
 
 #### mpd connect {server port}
@@ -272,10 +276,6 @@ Arguments:
 * s - seconds
 
 Set the crossfade duration.
-
-#### mpd config random {on}
-
-Enable or disable random playback mode.
 
 #### mpd config repeat {on}
 

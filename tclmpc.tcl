@@ -732,6 +732,49 @@ namespace eval mpd {
         }
 
 
+        # mpd::config::random --
+        #
+        #           Enables/Disables random mode
+        #
+        # Arguments:
+        #           on  Boolean
+        #
+        # Results:
+        #           Returns 0 if the config change was successful; 1 otherwise
+        #
+        proc random {on} {
+            # Validate 'on'
+            if {![string is boolean $on]} {
+                return 1
+            }
+
+            # Since we can take different booleans, send MPD 1 or 0
+            if {$on} {
+                set sendValue 1
+            } else {
+                set sendValue 0
+            }
+
+            # Send the config change command
+            set msg [comm::sendCommand "random $sendValue"]
+
+            # Check for error state
+            if {[string match {ACK*} $msg]} {
+                return 1
+            }
+
+            # Verify the config change happened
+            set consume [msg::getValue [mpd info status] random]
+            if {$consume!=$sendValue} {
+                debug "random>Failed to change random"
+                return 1
+            }
+
+            debug "random>Succeeded in changing random"
+            return 0
+        }
+
+
         namespace export *
         namespace ensemble create
     }
