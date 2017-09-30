@@ -47,6 +47,10 @@ Arguments:
 
 Plays/pauses playback, depending on the state of on.
 
+#### mpd toggle {}
+
+Toggle playback.
+
 #### mpd next {}
 
 Play the next track in the queue.
@@ -159,10 +163,6 @@ Returns 1 when MPD is playing; 0 otherwise.
 ## Work In Progress/To-Do List
 
 ### Playback Control
-
-#### mpd toggle {}
-
-Toggle playback.
 
 #### mpd seek {s}
 

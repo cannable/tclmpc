@@ -508,6 +508,26 @@ namespace eval mpd {
     }
 
 
+    # mpd::toggle --
+    #
+    #           Toggle playback
+    #
+    # Arguments:
+    #           none
+    #
+    # Results:
+    #           If MPD is paused, it will start playing; if it is playing, it
+    #           will pause.
+    #
+    proc toggle {} {
+        if {[mpd info isplaying]} {
+            mpd pause 1
+        }
+
+        mpd pause 0
+    }
+
+
     # mpd::next --
     #
     #           play next track
