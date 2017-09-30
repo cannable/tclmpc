@@ -94,6 +94,11 @@ Enable or disable random playback mode.
 
 Enable or disable repeat mode.
 
+#### mpd config single {on}
+
+When on, stop playback after the current track. If repeat is on, repeat the
+current track.
+
 ### Utility
 
 #### mpd connect {server port}
@@ -288,11 +293,6 @@ Arguments:
 * vol - Output volume, from 0-100
 
 Set the output volume.
-
-#### mpd config single {on}
-
-When on, stop playback after the current track. If repeat is on, repeat the
-current track.
 
 #### mpd config replaygain {state}
 
