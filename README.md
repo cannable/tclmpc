@@ -164,6 +164,10 @@ These are helper functions to make writing if statements easier.
 
 Returns 1 when MPD is playing; 0 otherwise.
 
+#### mpd is stopped {}
+
+Returns 1 when MPD is stopped; 0 otherwise.
+
 ## Work In Progress/To-Do List
 
 ### Playback Control

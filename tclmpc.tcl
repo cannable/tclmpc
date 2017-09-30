@@ -412,11 +412,30 @@ namespace eval mpd {
             set state [msg::getValue [mpd info status] state]
 
             if {[string match play $state]} {
-                debug isplaying
                 return 1
             }
 
-            debug isnotplaying
+            return 0
+        }
+
+
+        # mpd::is::stopped --
+        #
+        #           See if MPD is stopped
+        #
+        # Arguments:
+        #           none
+        #
+        # Results:
+        #           Returns 1 if MPD is stopped
+        #
+        proc stopped {} {
+            set state [msg::getValue [mpd info status] state]
+
+            if {[string match stop $state]} {
+                return 1
+            }
+
             return 0
         }
 
