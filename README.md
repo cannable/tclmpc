@@ -115,6 +115,14 @@ Arguments:
 
 Set the crossfade duration.
 
+#### mpd config replaygain {state}
+
+Arguments:
+
+* state - Replaygain state, where state=off,track,album,auto
+
+Change the state of Replaygain.
+
 ### Utility
 
 #### mpd connect {server port}
@@ -287,20 +295,6 @@ Remove the song at songpos from the queue.
 #### mpd queue prio {priority}       Sets track priority
 #### mpd queue shuffle               Shuffle the entire playlist
 #### mpd queue swap {a b}            Swap a and b
-
-### Options
-
-Common variables:
-
-* on - boolean: on=1, off=0
-
-#### mpd config replaygain {state}
-
-Arguments:
-
-* state - Replaygain state, where state=off,track,album,auto
-
-Change the state of Replaygain.
 
 ### Info
 

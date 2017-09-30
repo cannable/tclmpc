@@ -286,6 +286,8 @@ namespace eval msg {
         # TODO: Re-write this so that it is less stupid
         set index [lsearch $reply $key]
 
+        # MPD doesn't always return the status of config items that are off
+        # As a result, assume that anything not included in the data is 0
         if {$index < 0} {
             return 0
         }
@@ -934,6 +936,44 @@ namespace eval mpd {
             }
 
             debug "single>Succeeded in setting crossfade duration"
+            return 0
+        }
+
+
+        # mpd::config::replaygain --
+        #
+        #           Set the crossfade duration
+        #
+        # Arguments:
+        #           state   Replaygain state, where state=off,track,album,auto
+        #
+        # Results:
+        #           Returns 0 if the change was successful; 1 otherwise
+        #
+        proc replaygain {state} {
+            # Validate 'state'
+            if {[lsearch {off track album auto} $state] < 0} {
+                return 1
+            }
+
+            # Send the config change command
+            set msg [comm::sendCommand "replay_gain_mode $state"]
+
+            # Check for error state
+            if {[string match {ACK*} $msg]} {
+                return 1
+            }
+
+            # Verify the config change happened
+            set msg [comm::sendCommand "replay_gain_status"]
+
+            set rgstate [msg::getValue $msg replay_gain_state]
+            if {[string match $state $rgstate]} {
+                debug "replaygain>Failed to set replaygain state"
+                return 1
+            }
+
+            debug "replaygain>Succeeded in setting replaygain state"
             return 0
         }
 
