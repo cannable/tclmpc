@@ -606,14 +606,7 @@ namespace eval mpd {
     #           mpd will start playing the next track
     #
     proc next {} {
-        set msg [comm::sendCommand "next"]
-
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            return 1
-        }
-
-        return 0
+        return [msg::checkReply [comm::sendCommand next]]
     }
 
 
@@ -628,14 +621,7 @@ namespace eval mpd {
     #           MPD will start playing the previous track
     #
     proc prev {} {
-        set msg [comm::sendCommand "previous"]
-
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            return 1
-        }
-
-        return 0
+        return [msg::checkReply [comm::sendCommand previous]]
     }
 
 
@@ -672,14 +658,7 @@ namespace eval mpd {
     #           MPD will stop playing
     #
     proc stop {} {
-        set msg [comm::sendCommand "stop"]
-
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            return 1
-        }
-
-        return 0
+        return [msg::checkReply [comm::sendCommand stop]]
     }
 
 
