@@ -129,6 +129,10 @@ Change the state of Replaygain.
 
 Clear the playback queue.
 
+#### mpd queue info {}
+
+Returns a list lists containing info for the tracks in the play queue
+
 ### Utility
 
 #### mpd connect {server port}
@@ -293,10 +297,17 @@ Arguments:
 
 Remove the song at songpos from the queue.
 
-#### mpd queue info {}               playlistinfo
-#### mpd queue prio {priority}       Sets track priority
-#### mpd queue shuffle               Shuffle the entire playlist
-#### mpd queue swap {a b}            Swap a and b
+#### mpd queue prio {priority}
+
+Sets track priority
+
+#### mpd queue shuffle
+
+Shuffle the entire playlist
+
+#### mpd queue swap {a b}
+
+Swap a and b in the queue
 
 ### Info
 
