@@ -198,21 +198,21 @@ namespace eval msg {
     #           Prints nicely-formatted messages to stdout
     #
     # Arguments:
-    #           command The command to which this is a reply
-    #           reply   Message back from MPD
+    #           title   String to show in the title field
+    #           data    key-value list data to show
     #
     # Results:
     #           This is mostly just a debugging procedure to make message
     #           content easier to read.
     #
-    proc printReply {command reply} {
-        array set data $reply
+    proc printReply {title data} {
         puts [string repeat - 20]
-        puts ">>> $command <<<"
-        #puts $reply
-        foreach element [array names data] {
-            puts "|$element|$data($element)|"
+        puts ">>> $title <<<"
+
+        foreach {key value} $data {
+            puts "|$key|$value|"
         }
+
         puts [string repeat - 20]
     }
 
