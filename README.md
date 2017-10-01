@@ -186,6 +186,7 @@ Returned keys include:
 * Title
 * Track
 * duration
+* file
 
 #### mpd info status {}
 
@@ -212,6 +213,7 @@ Returned keys include:
 * songid
 * state
 * time
+* volume
 
 #### mpd info stats {}
 
@@ -225,6 +227,12 @@ Returned keys include:
 * db_update
 * playtime
 * songs
+* uptime
+
+#### mpd info decoders {}
+
+Returns a key-value list of decoders supported by the MPD server, their
+filename suffixes, and associated mime types.
 
 ### 'Is'
 
@@ -316,11 +324,6 @@ Swap a and b in the queue
 Returns a key-value list of commands that are allowed to be run by the client
 and commands that are not allowed (as returned by the MPD directives "commands"
 and "notcommands", respectively).
-
-#### mpd info decoders {}
-
-Returns a key-value list of decoders supported by the MPD server, their
-filename suffixes, and associated mime types.
 
 #### mpd info replaygain {}
 
