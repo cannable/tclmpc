@@ -555,14 +555,7 @@ namespace eval mpd {
                 set sendValue 0
             }
 
-            set msg [comm::sendCommand pause $sendValue]
-
-            # Check for error state
-            if {[string match {ACK*} $msg]} {
-                return 1
-            }
-
-            return 0
+            return [msg::checkReply [comm::sendCommand pause $sendValue]]
         }
     }
 
@@ -636,14 +629,7 @@ namespace eval mpd {
     #           MPD will start playing the requested song
     #
     proc play {songpos} {
-        set msg [comm::sendCommand "play $songpos"]
-
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            return 1
-        }
-
-        return 0
+        return [msg::checkReply [comm::sendCommand "play $songpos"]]
     }
 
 
@@ -683,14 +669,7 @@ namespace eval mpd {
             error "Seek seconds must be a double.'
         }
 
-        set msg [comm::sendCommand "seekcur $s"]
-
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            return 1
-        }
-
-        return 0
+        return [msg::checkReply [comm::sendCommand "seekcur $s"]]
     }
 
 
@@ -1001,14 +980,7 @@ namespace eval mpd {
         #           Returns 0 if the queue was purged; 1 otherwise
         #
         proc clear {} {
-            set msg [comm::sendCommand "clear"]
-
-            # Check for error state
-            if {[string match {ACK*} $msg]} {
-                return 1
-            }
-
-            return 0
+            return [msg::checkReply [comm::sendCommand clear]]
         }
 
 
