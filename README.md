@@ -133,6 +133,10 @@ Clear the playback queue.
 
 Returns a list lists containing info for the tracks in the play queue
 
+#### mpd queue shuffle
+
+Shuffle the entire playlist
+
 ### Utility
 
 #### mpd connect {server port}
@@ -300,10 +304,6 @@ Remove the song at songpos from the queue.
 #### mpd queue prio {priority}
 
 Sets track priority
-
-#### mpd queue shuffle
-
-Shuffle the entire playlist
 
 #### mpd queue swap {a b}
 

@@ -1042,6 +1042,28 @@ namespace eval mpd {
             return $queueTracks
         }
 
+
+        # mpd::queue::shuffle --
+        #
+        #           Shuffle the play queue
+        #
+        # Arguments:
+        #           none
+        #
+        # Results:
+        #           Returns 0 if the queue was shuffled; 1 otherwise
+        #
+        proc shuffle {} {
+            set msg [comm::sendCommand "shuffle"]
+
+            # Check for error state
+            if {[string match {ACK*} $msg]} {
+                return 1
+            }
+
+            return 0
+        }
+
         namespace export *
         namespace ensemble create
     }
