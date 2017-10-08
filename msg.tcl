@@ -61,6 +61,30 @@ namespace eval msg {
     }
 
 
+    # msg::printFileList --
+    #
+    #           Prints a nicely-formatted list of files to stdout
+    #
+    # Arguments:
+    #           data    File info list
+    #
+    # Results:
+    #           Prints the file list to stdout. This is here mostly for
+    #           debugging purposes.
+    #
+    proc printFileList {data} {
+        foreach file $data {
+            puts [string repeat - 20]
+            puts ">>> [getValue $file Title] <<<"
+
+            foreach {key value} $file {
+                puts "|$key|$value|"
+            }
+        }
+        puts [string repeat - 20]
+    }
+
+
     # msg:checkReply --
     #
     #           Checks a reply from MPD to see if the corresponding command
