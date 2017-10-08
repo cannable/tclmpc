@@ -1,9 +1,8 @@
 #! /usr/bin/env tclsh
 
-# Info proc tests
-
 # Load the library & connect to MPD running on localhost
-source ../tclmpc.tcl
+lappend auto_path [file normalize ..]
+package require tclmpc
 
 # Output debug logs to stdout
 proc debug {text} {

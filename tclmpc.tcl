@@ -31,6 +31,8 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+package provide tclmpc 0.1
+
 # Define this proc in your code to test the library
 proc debug {text} {
     #puts "DEBUG:$text"
