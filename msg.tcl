@@ -163,4 +163,41 @@ namespace eval msg {
         }
         return [lindex $reply $index+1]
     }
+
+
+    # msg::parseFileList --
+    #
+    #           Converts a message containing properties for a list of files
+    #           into a structured Tcl list of lists.
+    #
+    # Arguments:
+    #           reply   Message back from MPD
+    #
+    # Results:
+    #           Returns a list of lists of file info
+    #
+    proc parseFileList {reply} {
+        set msg [comm::sendCommand "playlistinfo"]
+        set queueTracks {}
+
+        # Find all file keys
+        set filekeys [lsearch -exact -all $reply file]
+
+        # Guess at the length of each record
+        set recordLength [expr [lindex $filekeys 1] - 1]
+
+        # Extract the track info at each offset and assemble a list of
+        # lists for track info
+        foreach index $filekeys {
+            set trackInfo [lrange $reply $index [expr $index + $recordLength]]
+            lappend queueTracks $trackInfo
+        }
+
+        # Check for error state
+        if {[string match {ACK*} $reply]} {
+            return 1
+        }
+
+        return $queueTracks
+    }
 }

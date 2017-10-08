@@ -64,27 +64,7 @@ namespace eval mpd::queue {
     #
     proc info {} {
         set msg [comm::sendCommand "playlistinfo"]
-        set queueTracks {}
-
-        # Find all file keys
-        set filekeys [lsearch -exact -all $msg file]
-
-        # Guess at the length of each record
-        set recordLength [expr [lindex $filekeys 1] - 1]
-
-        # Extract the track info at each offset and assemble a list of
-        # lists for track info
-        foreach index $filekeys {
-            set trackInfo [lrange $msg $index [expr $index + $recordLength]]
-            lappend queueTracks $trackInfo
-        }
-
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            return 1
-        }
-
-        return $queueTracks
+        return [msg::parseFileList $msg]
     }
 
 
