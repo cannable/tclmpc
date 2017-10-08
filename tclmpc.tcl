@@ -35,6 +35,8 @@ package require tclmpc::comm 0.1
 package require tclmpc::msg 0.1
 package require tclmpc::info 0.1
 package require tclmpc::config 0.1
+package require tclmpc::queue 0.1
+
 package provide tclmpc 0.1
 
 # Define this proc in your code to test the library
@@ -292,77 +294,6 @@ namespace eval mpd {
     }
 
 
-    namespace eval queue {
-
-
-        # mpd::queue::clear --
-        #
-        #           Purge the play queue
-        #
-        # Arguments:
-        #           none
-        #
-        # Results:
-        #           Returns 0 if the queue was purged; 1 otherwise
-        #
-        proc clear {} {
-            return [msg::checkReply [comm::sendCommand clear]]
-        }
-
-
-        # mpd::queue::info --
-        #
-        #           Get track info for the play queue
-        #
-        # Arguments:
-        #           none
-        #
-        # Results:
-        #           Returns 0 if the queue was purged; 1 otherwise
-        #
-        proc info {} {
-            set msg [comm::sendCommand "playlistinfo"]
-            set queueTracks {}
-
-            # Find all file keys
-            set filekeys [lsearch -exact -all $msg file]
-
-            # Guess at the length of each record
-            set recordLength [expr [lindex $filekeys 1] - 1]
-
-            # Extract the track info at each offset and assemble a list of
-            # lists for track info
-            foreach index $filekeys {
-                set trackInfo [lrange $msg $index [expr $index + $recordLength]]
-                lappend queueTracks $trackInfo
-            }
-
-            # Check for error state
-            if {[string match {ACK*} $msg]} {
-                return 1
-            }
-
-            return $queueTracks
-        }
-
-
-        # mpd::queue::shuffle --
-        #
-        #           Shuffle the play queue
-        #
-        # Arguments:
-        #           none
-        #
-        # Results:
-        #           Returns 0 if the queue was shuffled; 1 otherwise
-        #
-        proc shuffle {} {
-            return [msg::checkReply [comm::sendCommand shuffle]]
-        }
-
-        namespace export *
-        namespace ensemble create
-    }
     namespace export *
     namespace ensemble create
 }
