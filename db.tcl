@@ -38,13 +38,15 @@ namespace eval mpd::db {
 
     # mpd::db::find --
     #
-    #           Perform a case-sensitive search of the MPD DB.
+    #           Perform a case-sensitive search of the MPD DB. No validation is
+    #           performed on the arguments passed to this procedure. If MPD
+    #           doesn't like the search query, it will tell us.
     #
     # Arguments:
-    #           none
+    #           args    a list of arguments to pass to MPD with the root command
     #
     # Results:
-    #           MPD will send us a message with the requested info
+    #           Returns a list of files and their attributes
     #
     proc find {args} {
         set query [regsub -all -- {\{|\}} $args \"]
@@ -63,13 +65,15 @@ namespace eval mpd::db {
 
     # mpd::db::search --
     #
-    #           Perform a case-insensitive search of the MPD DB.
+    #           Perform a case-insensitive search of the MPD DB. No validation
+    #           is performed on the arguments passed to this procedure. If MPD
+    #           doesn't like the search query, it will tell us.
     #
     # Arguments:
-    #           none
+    #           args    a list of arguments to pass to MPD with the root command
     #
     # Results:
-    #           MPD will send us a message with the requested info
+    #           Returns a list of files and their attributes
     #
     proc search {args} {
         set query [regsub -all -- {\{|\}} $args \"]
@@ -84,6 +88,39 @@ namespace eval mpd::db {
 
         return [msg::parseFileList $msg]
     }
+
+
+    # mpd::db::list --
+    #
+    #           Retrieve a list of objects based on the passed filter and group
+    #           arguments. This is a direct line to the MPD list function - no
+    #           validation is performed on any of the arguments you pass to
+    #           this procedure. If this errors out, you should confirm that MPD
+    #           likes your query.
+    #
+    # Arguments:
+    #           args    a list of arguments to pass to MPD with the root command
+    #
+    # Results:
+    #           Returns a list of results from the query
+    #
+    proc list {args} {
+        set query [regsub -all -- {\{|\}} $args \"]
+        set msg [comm::sendCommand "list $query"]
+        set results {}
+
+        # Check for error state
+        if {[string match {ACK*} $msg]} {
+            error [msg::decodeAck $msg]
+        }
+
+        foreach {type item} $msg {
+            lappend results $item
+        }
+
+        return $results
+    }
+
 
     namespace export *
     namespace ensemble create

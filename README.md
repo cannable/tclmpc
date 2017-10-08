@@ -258,6 +258,11 @@ verbatim. to the message sent to MPD.
 Perform a case-insensitive search of the MPD DB. The contents of args are
 passed, verbatim. to the message sent to MPD.
 
+#### mpd db list {args} 
+
+Lists objects by passed tag criteria. The contents of args are passed,
+verbatim. to the message sent to MPD.
+
 ## Work In Progress/To-Do List
 
 ### Playlists
@@ -372,11 +377,6 @@ scan a fragment of the library.
 Scan all files and update the DB. Scope of the scan is controlled by args: if
 nothing is passed, everything is scanned. Pass a file or directory to scan a
 fragment of the library.
-
-#### mpd db list {args} 
-
-Lists objects by passed tag criteria. The contents of args are passed,
-verbatim. to the message sent to MPD.
 
 #### mpd db albumart {URI}
 
