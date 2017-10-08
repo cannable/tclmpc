@@ -246,6 +246,18 @@ Returns 1 when MPD is playing; 0 otherwise.
 
 Returns 1 when MPD is stopped; 0 otherwise.
 
+### Database
+
+#### mpd db find {args}
+
+Perform a case-sensitive search of the MPD DB. The contents of args are passed,
+verbatim. to the message sent to MPD.
+
+#### mpd db search {args} 
+
+Perform a case-insensitive search of the MPD DB. The contents of args are
+passed, verbatim. to the message sent to MPD.
+
 ## Work In Progress/To-Do List
 
 ### Playlists
@@ -360,16 +372,6 @@ scan a fragment of the library.
 Scan all files and update the DB. Scope of the scan is controlled by args: if
 nothing is passed, everything is scanned. Pass a file or directory to scan a
 fragment of the library.
-
-#### mpd db find {args}
-
-Perform a case-sensitive search of the MPD DB. The contents of args are passed,
-verbatim. to the message sent to MPD.
-
-#### mpd db search {args} 
-
-Perform a case-insensitive search of the MPD DB. The contents of args are
-passed, verbatim. to the message sent to MPD.
 
 #### mpd db list {args} 
 
