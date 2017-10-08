@@ -361,10 +361,35 @@ Scan all files and update the DB. Scope of the scan is controlled by args: if
 nothing is passed, everything is scanned. Pass a file or directory to scan a
 fragment of the library.
 
+#### mpd db find {args}
+
+Perform a case-sensitive search of the MPD DB. The contents of args are passed,
+verbatim. to the message sent to MPD.
+
+#### mpd db search {args} 
+
+Perform a case-insensitive search of the MPD DB. The contents of args are
+passed, verbatim. to the message sent to MPD.
+
+#### mpd db list {args} 
+
+Lists objects by passed tag criteria. The contents of args are passed,
+verbatim. to the message sent to MPD.
+
+#### mpd db albumart {URI}
+
+Returns the album art binary blog from the MPD DB.
+
 ## Requires Further Planning
 ### Database
 #### mpd db count {TAG NEEDLE}
-#### mpd db albumart {URI OFFSET}
+#### mpd db get albumsByArtist {artist}
+
+Convenience procedure to perform a search of the MPD DB.
+
+#### mpd db get tracksByAlbum {album}
+
+Convenience procedure to perform a search of the MPD DB.
 
 ## Not Implementing
 
