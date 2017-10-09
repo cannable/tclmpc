@@ -82,6 +82,50 @@ namespace eval mpd::queue {
         return [msg::checkReply [comm::sendCommand shuffle]]
     }
 
+
+    # mpd::queue::add --
+    #
+    #           Add song or directory (recursive) contents to the queue
+    #
+    # Arguments:
+    #           uri     Path to the file/directory to add to the queue
+    #
+    # Results:
+    #           Returns 0 if the track/directory was added; 1 otherwise
+    #
+    proc add {uri} {
+        set safeuri [msg::sanitize $uri]
+        debug "safeuri: $safeuri"
+        return [msg::checkReply [comm::sendCommand "add \"$safeuri\""]]
+    }
+
+
+    # mpd::queue::insert --
+    #
+    #           Inserts a track into the play queue
+    #
+    # Arguments:
+    #           uri     Path to the file to add to the queue
+    #           pos     Insertion position
+    #
+    # Results:
+    #           Returns id
+    #
+    proc insert {uri pos} {
+        set safeuri [msg::sanitize $uri]
+        set msg [comm::sendCommand "addid \"$safeuri\" $pos"]
+
+        # Check for error state
+        if {[string match {ACK*} $msg]} {
+            return 1
+        }
+
+        debug "Inserted at [lindex $msg end]"
+
+        return [lindex $msg end]
+    }
+
     namespace export *
     namespace ensemble create
+
 }

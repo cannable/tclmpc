@@ -125,6 +125,24 @@ Change the state of Replaygain.
 
 ### Queue
 
+#### mpd queue add {uri}
+
+Arguments:
+
+* uri - File/URL/Directory path
+
+Add the song(s) at uri to the playback queue. If the passed uri is a directory,
+adds tracks recursively.
+
+#### mpd queue insert {uri pos}
+
+Arguments:
+
+* uri - File path
+* pos - Queue position for insertion
+
+Inserts the song at uri into position pos in the playback queue.
+
 #### mpd queue clear {}
 
 Clear the playback queue.
@@ -330,15 +348,6 @@ Nuke the passed playlist.
 Save the playlist.
 
 ### Queue
-
-#### mpd queue add {uri}
-
-Arguments:
-
-* uri - File name, URL, or directory
-
-Add the song(s) at uri to the playback queue. If the passed uri is a directory,
-adds tracks recursively.
 
 #### mpd queue delete {songpos}
 
