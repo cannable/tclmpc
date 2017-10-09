@@ -50,13 +50,13 @@ namespace eval comm {
     #           0
     #
     proc connect {server port} {
-        debug "connect> Connecting to $server:$port"
+        debug "Connecting to $server:$port"
         variable mpd_socket
 
         if {! [string length $mpd_socket]} {
             set mpd_socket [socket $server $port]
             gets $mpd_socket banner
-            debug "MPD Banner> '$banner'"
+            debug "MPD Banner: '$banner'"
 
             if {![string match {OK MPD*} $banner]} {
                 error "Didn't receive banner"
@@ -138,10 +138,10 @@ namespace eval comm {
 
         # Send the command to the server
         if {[string length $args]} {
-            debug "comm::sendCommand>Sending command: '$command' '$args'"
+            debug "Sending command: '$command' '$args'"
             puts $mpd_socket "$command $args"
         } else {
-            debug "comm::sendCommand>Sending single command: '$command'"
+            debug "Sending single command: '$command'"
             puts $mpd_socket $command
         }
 
@@ -158,12 +158,12 @@ namespace eval comm {
         switch -glob -- $line {
             {OK} {
                 # Command was successful, and we didn't get any data back
-                debug "sendCommand>OK: '$line'"
+                debug "OK: '$line'"
                 return $line
             }
             {ACK*} {
                 # Something went wrong
-                debug "sendCommand>Error: '$line'"
+                debug "Error: '$line'"
                 return $line
             }
         }
@@ -172,14 +172,14 @@ namespace eval comm {
         # There's more data to get, read from the socket until we get an 'OK'
         while {![string match OK $line]} {
             gets $mpd_socket line
-            puts "sendCommand>line: '$line"
+            debug "line: '$line"
 
             if {![string match OK $line]} { 
                 lappend message "$line"
             }
         }
 
-        debug "sendCommand>Received: '$message'"
+        debug "Received: '$message'"
         return [msg::decodeReply $message]
     }
 }

@@ -71,11 +71,11 @@ namespace eval mpd::config {
         # Verify the config change happened
         set consume [msg::getValue [mpd info status] consume]
         if {$consume!=$sendValue} {
-            debug "consume>Failed to change consume"
+            debug "Failed to change consume"
             return 1
         }
 
-        debug "consume>Succeeded in changing consume"
+        debug "Succeeded in changing consume"
         return 0
     }
 
@@ -114,11 +114,11 @@ namespace eval mpd::config {
         # Verify the config change happened
         set consume [msg::getValue [mpd info status] random]
         if {$consume!=$sendValue} {
-            debug "random>Failed to change random"
+            debug "Failed to change random"
             return 1
         }
 
-        debug "random>Succeeded in changing random"
+        debug "Succeeded in changing random"
         return 0
     }
 
@@ -157,11 +157,11 @@ namespace eval mpd::config {
         # Verify the config change happened
         set consume [msg::getValue [mpd info status] repeat]
         if {$consume!=$sendValue} {
-            debug "repeat>Failed to change repeat"
+            debug "Failed to change repeat"
             return 1
         }
 
-        debug "repeat>Succeeded in changing repeat"
+        debug "Succeeded in changing repeat"
         return 0
     }
 
@@ -200,11 +200,11 @@ namespace eval mpd::config {
         # Verify the config change happened
         set consume [msg::getValue [mpd info status] single]
         if {$consume!=$sendValue} {
-            debug "single>Failed to change single"
+            debug "Failed to change single"
             return 1
         }
 
-        debug "single>Succeeded in changing single"
+        debug "Succeeded in changing single"
         return 0
     }
 
@@ -240,11 +240,11 @@ namespace eval mpd::config {
         # Verify the config change happened
         set mpdvol [msg::getValue [mpd info status] volume]
         if {$mpdvol!=$vol} {
-            debug "single>Failed to set volume"
+            debug "Failed to set volume"
             return 1
         }
 
-        debug "single>Succeeded in setting volume"
+        debug "Succeeded in setting volume"
         return 0
     }
 
@@ -276,11 +276,11 @@ namespace eval mpd::config {
         # Verify the config change happened
         set xfade [msg::getValue [mpd info status] xfade]
         if {$xfade!=$s} {
-            debug "single>Failed to set crossfade duration"
+            debug "Failed to set crossfade duration"
             return 1
         }
 
-        debug "single>Succeeded in setting crossfade duration"
+        debug "Succeeded in setting crossfade duration"
         return 0
     }
 
@@ -314,11 +314,11 @@ namespace eval mpd::config {
 
         set rgstate [msg::getValue $msg replay_gain_state]
         if {[string match $state $rgstate]} {
-            debug "replaygain>Failed to set replaygain state"
+            debug "Failed to set replaygain state"
             return 1
         }
 
-        debug "replaygain>Succeeded in setting replaygain state"
+        debug "Succeeded in setting replaygain state"
         return 0
     }
 

@@ -43,7 +43,7 @@ package provide tclmpc 0.1
 
 # Define this proc in your code to test the library
 proc debug {text} {
-    #puts "DEBUG:$text"
+    #puts "DEBUG:[lindex [uplevel 1 {info level 0} ] 0]> $text"
 }
 
 

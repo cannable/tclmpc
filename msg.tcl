@@ -127,7 +127,7 @@ namespace eval msg {
 
         foreach line $reply {
             regexp -- {([^:]+): (.+)$} $line -> key value
-            debug "msg::decodeReply> '$key'->'$value'"
+            debug "'$key'->'$value'"
             lappend elements $key $value
         }
 
@@ -156,7 +156,7 @@ namespace eval msg {
                 ack(commandList) \
                 ack(command) \
                 ack(messageText)
-        #debug "msg::decodAck>ack: '[array get ack]'"
+        debug "ack: '[array get ack]'"
 
         return [array get ack]
     }

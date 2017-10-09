@@ -50,8 +50,8 @@ namespace eval mpd::db {
     #
     proc find {args} {
         set query [regsub -all -- {\{|\}} $args \"]
-        debug "db::find>query: $query"
-        debug "db::find>find $args"
+        debug "query: $query"
+        debug "find $args"
         set msg [comm::sendCommand "find $query"]
 
         # Check for error state
@@ -77,8 +77,8 @@ namespace eval mpd::db {
     #
     proc search {args} {
         set query [regsub -all -- {\{|\}} $args \"]
-        debug "db::search>query: $query"
-        debug "db::search>search $args"
+        debug "query: $query"
+        debug "search $args"
         set msg [comm::sendCommand "search $query"]
 
         # Check for error state
