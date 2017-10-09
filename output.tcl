@@ -1,8 +1,8 @@
 #! /usr/bin/env tclsh
 
-# tclmpc.tcl --
+# output.tcl --
 #
-#     Provides an API for connecting to and driving musicpd server.
+#     Provides mpd output namespace functions for tclmpc.
 # 
 # Copyright 2017 C. Annable
 # 
@@ -31,85 +31,35 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-package require tclmpc::comm 0.1
-package require tclmpc::msg 0.1
-package require tclmpc::info 0.1
-package require tclmpc::config 0.1
-package require tclmpc::queue 0.1
-package require tclmpc::playback 0.1
-package require tclmpc::db 0.1
-package require tclmpc::output 0.1
+package provide tclmpc::output 0.1
 
-package provide tclmpc 0.1
-
-# Define this proc in your code to test the library
-proc debug {text} {
-    #puts "DEBUG:[lindex [uplevel 1 {info level 0} ] 0]> $text"
-}
+namespace eval mpd::output {
 
 
-namespace eval mpd {
-
-
-    # mpd::ping --
+    # mpd::output::list --
     #
-    #           Pings MPD
+    #           Returns a list of MPD outputs
     #
     # Arguments:
     #           none
     #
     # Results:
-    #           Returns 1 if we have an active connection to MPD.
-    #           Returns 0 if we don't have a usable connection to MPD.
+    #           Returns a list of MPD outputs and related atributes
     #
-    proc ping {} {
-        # If we don't even have an open socket, fail
-        if {! [comm::isconnected]} {
-            return 0
-        }
+    proc list {} {
+        set msg [comm::sendCommand "outputs"]
 
-        set msg [comm::sendCommand "ping"]
-        
-        # If we got an OK from MPD, we're all set
-        if {[string match {OK} $msg]} {
+        debug "msg: $msg"
+
+        # Check for error state
+        if {[string match {ACK*} $msg]} {
             return 1
         }
 
-        return 0
-    }
-
-
-    # mpd::connect --
-    #
-    #           Connect to an MPD server
-    #
-    # Arguments:
-    #           none
-    #
-    # Results:
-    #           Connects to MPD
-    #
-    proc connect {server port} {
-        comm::connect $server $port
-    }
-
-
-    # mpd::disconnect --
-    #
-    #           Close connection to MPD
-    #
-    # Arguments:
-    #           none
-    #
-    # Results:
-    #           Closes MPD connection
-    #
-    proc disconnect {} {
-        comm::disconnect
+        return [msg::mkStructuredList $msg outputid]
     }
 
 
     namespace export *
     namespace ensemble create
 }
-
