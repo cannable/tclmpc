@@ -132,6 +132,28 @@ namespace eval mpd::info {
     }
 
 
+    # mpd::info::replaygain --
+    #
+    #           Gets the current replay gain status
+    #
+    # Arguments:
+    #           none
+    #
+    # Results:
+    #           Returns the current replay gain state
+    #
+    proc replaygain {} {
+        set msg [comm::sendCommand "replay_gain_status"]
+
+        # Check for error state
+        if {[string match {ACK*} $msg]} {
+            return 1
+        }
+
+        return [lindex $msg end]
+    }
+
+
     # mpd::info::decoders --
     #
     #           Gets a list of lists of decoder info
