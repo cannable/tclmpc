@@ -6,7 +6,7 @@ package require tclmpc
 
 # Output debug logs to stdout
 proc debug {text} {
-    puts "DEBUG:[lindex [uplevel 1 {info level 0} ] 0]> $text"
+    #puts "DEBUG:[lindex [uplevel 1 {info level 0} ] 0]> $text"
 }
 
 # Connect to MPD and run some tests
