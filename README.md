@@ -263,6 +263,28 @@ passed, verbatim. to the message sent to MPD.
 Lists objects by passed tag criteria. The contents of args are passed,
 verbatim. to the message sent to MPD.
 
+### Outputs
+
+Common variables:
+
+* id - Output ID
+
+#### mpd output disable {id}
+
+Disable the passed output.
+
+#### mpd output enable {id}
+
+Enable the passed output.
+
+#### mpd output toggle {id}
+
+Toggle the passed output.
+
+#### mpd output list {}
+
+Return a list of all available outputs.
+
 ## Work In Progress/To-Do List
 
 ### Playlists
@@ -345,24 +367,6 @@ and "notcommands", respectively).
 #### mpd info replaygain {}
 
 Returns the current state of Replaygain.
-
-### Outputs
-
-Common variables:
-
-* id - Output ID
-
-#### mpd output disable {id}
-
-Disable the passed output.
-
-#### mpd output enable {id}
-
-Enable the passed output.
-
-#### mpd output list {}
-
-Return a list of all available outputs.
 
 ### Database
 

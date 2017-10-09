@@ -60,6 +60,51 @@ namespace eval mpd::output {
     }
 
 
+    # mpd::output::disable --
+    #
+    #           Disable output
+    #
+    # Arguments:
+    #           id  Output ID
+    #
+    # Results:
+    #           MPD will disable the passed output
+    #
+    proc disable {id} {
+        return [msg::checkReply [comm::sendCommand "disableoutput $id"]]
+    }
+
+
+    # mpd::output::enable --
+    #
+    #           Enable output
+    #
+    # Arguments:
+    #           id  Output ID
+    #
+    # Results:
+    #           MPD will enable the passed output
+    #
+    proc enable {id} {
+        return [msg::checkReply [comm::sendCommand "enableoutput $id"]]
+    }
+
+
+    # mpd::output::toggle --
+    #
+    #           Toggle output
+    #
+    # Arguments:
+    #           id  Output ID
+    #
+    # Results:
+    #           MPD will enable or disable the passed output
+    #
+    proc toggle {id} {
+        return [msg::checkReply [comm::sendCommand "toggleoutput $id"]]
+    }
+
+
     namespace export *
     namespace ensemble create
 }
