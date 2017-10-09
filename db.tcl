@@ -49,7 +49,7 @@ namespace eval mpd::db {
     #           Returns a list of files and their attributes
     #
     proc find {args} {
-        set query [regsub -all -- {\{|\}} $args \"]
+        set query [msg::sanitize $args]
         debug "query: $query"
         debug "find $args"
         set msg [comm::sendCommand "find $query"]
@@ -76,7 +76,7 @@ namespace eval mpd::db {
     #           Returns a list of files and their attributes
     #
     proc search {args} {
-        set query [regsub -all -- {\{|\}} $args \"]
+        set query [msg::sanitize $args]
         debug "query: $query"
         debug "search $args"
         set msg [comm::sendCommand "search $query"]
@@ -105,7 +105,7 @@ namespace eval mpd::db {
     #           Returns a list of results from the query
     #
     proc list {args} {
-        set query [regsub -all -- {\{|\}} $args \"]
+        set query [msg::sanitize $args]
         set msg [comm::sendCommand "list $query"]
         set results {}
 
