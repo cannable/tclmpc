@@ -209,14 +209,26 @@ namespace eval msg {
         # Find all file keys
         set keys [lsearch -exact -all $data $marker]
 
+        debug "keys: $keys"
+
+        # If we only have one key, return right away
+        if {[llength $keys] == 1} {
+            debug "There's only one item in this list. Returning."
+            return [list $data]
+        }
+
         # Guess at the length of each record
         set recordLength [expr [lindex $keys 1] - 1]
+
+        debug "recordLength: $recordLength"
 
         # Extract list elements between markers, appending them to output
         foreach index $keys {
             set itemInfo [lrange $data $index [expr $index + $recordLength]]
             lappend output $itemInfo
         }
+
+        debug "output: '$output'"
 
         return $output
     }
