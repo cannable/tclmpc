@@ -47,8 +47,39 @@ namespace eval mpd::info {
     #           MPD will send us commands and notcommands replies
     #
     proc rights {} {
-        comm::sendCommand commands
-        comm::sendCommand notcommands
+        set msg [comm::sendCommand "commands"]
+        set rights {}
+
+        # Check for error state
+        if {[string match {ACK*} $msg]} {
+            error [msg::decodeAck $msg]
+        }
+
+        foreach {right command} $msg {
+            lappend rights $command allow
+        }
+
+        # Repeat logic to grab denies
+        set msg [comm::sendCommand "notcommands"]
+
+        # Check for error state
+        if {[string match {ACK*} $msg]} {
+            error [msg::decodeAck $msg]
+        }
+
+        # Bail right now if there are no denies
+        if {[string match {OK*} $msg]} {
+            debug "No denies"
+            debug "rights: '[lsort -stride 2 $rights]'"
+            return [lsort -stride 2 $rights]
+        }
+
+        foreach {right command} $msg {
+            lappend rights $command deny
+        }
+
+        debug "rights: '[lsort -stride 2 $rights]'"
+        return [lsort -stride 2 $rights]
     }
 
 

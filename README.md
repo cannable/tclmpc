@@ -198,6 +198,7 @@ This could be expanded to be more robust, but, currently, it only checks the
 socket, then sends a ping command to the server and waits for a response.
 
 ### Info
+
 #### mpd info currentsong {}
 
 Returns a key-value list of information for the current song. This info is
@@ -271,6 +272,13 @@ filename suffixes, and associated mime types.
 #### mpd info replaygain {}
 
 Returns the current state of Replaygain.
+
+#### mpd info rights {}
+
+Returns a key-value list of commands that are allowed to be run by the client
+and commands that are not allowed (as returned by the MPD directives "commands"
+and "notcommands", respectively). The key is the command name; value either
+"allow" or "deny".
 
 ### 'Is'
 
@@ -376,14 +384,6 @@ Sets track priority
 #### mpd queue swap {a b}
 
 Swap a and b in the queue
-
-### Info
-
-#### mpd info rights {}
-
-Returns a key-value list of commands that are allowed to be run by the client
-and commands that are not allowed (as returned by the MPD directives "commands"
-and "notcommands", respectively).
 
 ### Database
 
