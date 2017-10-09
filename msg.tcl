@@ -189,39 +189,35 @@ namespace eval msg {
     }
 
 
-    # msg::parseFileList --
+    # msg::mkStructuredList --
     #
-    #           Converts a message containing properties for a list of files
-    #           into a structured Tcl list of lists.
+    #           Creates a structured list from a flat, unstructured one.
+    #           Extracts list items between marker indexes, then lappends the
+    #           extracted items as a new list item.
     #
     # Arguments:
-    #           reply   Message back from MPD
+    #           data    Flat list of many objects
+    #           marker  List element that indicates the start of a list of
+    #                   related attributes
     #
     # Results:
-    #           Returns a list of lists of file info
+    #           Returns a multi-level list 
     #
-    proc parseFileList {reply} {
-        set msg [comm::sendCommand "playlistinfo"]
-        set queueTracks {}
+    proc mkStructuredList {data marker} {
+        set output {}
 
         # Find all file keys
-        set filekeys [lsearch -exact -all $reply file]
+        set keys [lsearch -exact -all $data $marker]
 
         # Guess at the length of each record
-        set recordLength [expr [lindex $filekeys 1] - 1]
+        set recordLength [expr [lindex $keys 1] - 1]
 
-        # Extract the track info at each offset and assemble a list of
-        # lists for track info
-        foreach index $filekeys {
-            set trackInfo [lrange $reply $index [expr $index + $recordLength]]
-            lappend queueTracks $trackInfo
+        # Extract list elements between markers, appending them to output
+        foreach index $keys {
+            set itemInfo [lrange $data $index [expr $index + $recordLength]]
+            lappend output $itemInfo
         }
 
-        # Check for error state
-        if {[string match {ACK*} $reply]} {
-            return 1
-        }
-
-        return $queueTracks
+        return $output
     }
 }

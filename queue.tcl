@@ -64,7 +64,7 @@ namespace eval mpd::queue {
     #
     proc info {} {
         set msg [comm::sendCommand "playlistinfo"]
-        return [msg::parseFileList $msg]
+        return [msg::mkStructuredList $msg file]
     }
 
 

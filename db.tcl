@@ -59,7 +59,7 @@ namespace eval mpd::db {
             error [msg::decodeAck $msg]
         }
 
-        return [msg::parseFileList $msg]
+        return [msg::mkStructuredList $msg file]
     }
 
 
@@ -86,7 +86,7 @@ namespace eval mpd::db {
             error [msg::decodeAck $msg]
         }
 
-        return [msg::parseFileList $msg]
+        return [msg::mkStructuredList $msg file]
     }
 
 
