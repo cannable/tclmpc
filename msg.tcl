@@ -232,4 +232,22 @@ namespace eval msg {
 
         return $output
     }
+
+
+    # msg::sanitize --
+    #
+    #           Alters the passed string to make it comply with the formatting
+    #           that MPD expects.
+    #
+    #           ex. Replace all curly braces with double quotes.
+    #
+    # Arguments:
+    #           string  String to manipulate
+    #
+    # Results:
+    #           Returns a "cleaned" string
+    #
+    proc sanitize {string} {
+        return [regsub -all -- {\{|\}} $string \"]
+    }
 }
