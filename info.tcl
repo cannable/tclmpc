@@ -144,27 +144,13 @@ namespace eval mpd::info {
     #
     proc decoders {} {
         set msg [comm::sendCommand "decoders"]
-        set allDecoders {}
-
-        # Find all file keys
-        set keys [lsearch -exact -all $msg plugin]
-
-        # Guess at the length of each record
-        set recordLength [expr [lindex $keys 1] - 1]
-
-        # Extract the track info at each offset and assemble a list of
-        # lists for track info
-        foreach index $keys {
-            set decInfo [lrange $msg $index [expr $index + $recordLength]]
-            lappend allDecoders $decInfo
-        }
 
         # Check for error state
         if {[string match {ACK*} $msg]} {
             return 1
         }
 
-        return $allDecoders
+        return [msg::mkStructuredList $msg plugin]
     }
 
 
