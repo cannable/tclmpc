@@ -125,6 +125,38 @@ namespace eval mpd::queue {
         return [lindex $msg end]
     }
 
+
+    # mpd::queue::delete --
+    #
+    #           Removes track(s) from the play queue
+    #
+    # Arguments:
+    #           pos     Position or range for deletion
+    #                   ex. 5 or 3:7
+    #
+    # Results:
+    #           Removes the requested track(s) from the play queue
+    #
+    proc delete {pos} {
+        return [msg::checkReply [comm::sendCommand "delete $pos"]]
+    }
+
+
+    # mpd::queue::deleteid --
+    #
+    #           Remove track from the play queue by ID
+    #
+    # Arguments:
+    #           id      Track ID to remove
+    #
+    # Results:
+    #           Removes the requested track from the play queue
+    #
+    proc deleteid {id} {
+        return [msg::checkReply [comm::sendCommand "deleteid $id"]]
+    }
+
+
     namespace export *
     namespace ensemble create
 

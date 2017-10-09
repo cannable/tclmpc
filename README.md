@@ -143,6 +143,22 @@ Arguments:
 
 Inserts the song at uri into position pos in the playback queue.
 
+#### mpd queue delete {pos}
+
+Arguments:
+
+* pos - location of song in queue
+
+Remove the song at pos from the queue.
+
+#### mpd queue deleteid {id}
+
+Arguments:
+
+* id - song ID
+
+Remove the song via ID from the queue.
+
 #### mpd queue clear {}
 
 Clear the playback queue.
@@ -348,14 +364,6 @@ Nuke the passed playlist.
 Save the playlist.
 
 ### Queue
-
-#### mpd queue delete {songpos}
-
-Arguments:
-
-* songpos - location of song in queue
-
-Remove the song at songpos from the queue.
 
 #### mpd queue prio {priority}
 
