@@ -358,7 +358,7 @@ Swap a and b in the queue
 
 ### Info
 
-#### mpd info rights {}          commands and notcommands
+#### mpd info rights {}
 
 Returns a key-value list of commands that are allowed to be run by the client
 and commands that are not allowed (as returned by the MPD directives "commands"
@@ -399,11 +399,10 @@ Convenience procedure to perform a search of the MPD DB.
 
 ## Not Implementing
 
-These are some things that I im intentionally ignoring until I get round one
+These are some things that I am intentionally ignoring until I get round one
 complete.
 
 * Mounts/neighbour stuff
 * Partitions
 * Stickers
-* Most search functionality (At least, until the base is fleshed-out)
 * Client-to-client communication
