@@ -162,9 +162,19 @@ namespace eval comm {
                 return $line
             }
             {ACK*} {
-                # Something went wrong
-                debug "Error: '$line'"
-                return $line
+                # MPD has told us something is horribly wrong
+                set cmdline $command
+
+                if {[string length $args]} {
+                    append cmdline $args
+                }
+
+                return \
+                    -code error \
+                    -errorinfo [format "%s\nCommand:\t'%s'\nResponse:\t'%s'" \
+                        "MPD threw an error after we sent it a directive." \
+                        "$cmdline" \
+                        $line]
             }
         }
 
