@@ -34,6 +34,76 @@ low-hanging fruit. I intend to continue down this line, slowly implementing
 features that require more effort. As I implement functions, they'll end up
 under the "Complete/Working heading below".
 
+# Common Data Structures
+
+Standard Tcl data structures, such as lists and dicts, are used throughout this
+project. Building on these, a few common data models are used for representing
+things like tracks (and their associated properties). This section is dedicated
+to outlining these formats.
+
+## trackInfo
+
+Tracks are represented as trackInfo dicts. Each top-level key in the dict
+represents a separate track (in this way we can juggle multiple tracks easily).
+The track key is the uri to the song, as this is guaranteed to be unique in the
+MPD database. The uri is also contained in the properties of the track.
+
+If we were to show this structure as a bulleted list, the structure would be
+similar to the following:
+
+* uri
+    * file (this is the uri)
+    * Last-Modified
+    * Time
+    * duration
+    * Title
+    * Album
+    * Artist
+    * Genre
+    * AlbumArtist
+    * Date
+    * Track
+* uri #2
+    * file (this is the uri)
+    * ...
+    * Track
+* ...
+
+To demonstrate this in Tcl, have a look at the following code:
+
+~~~~
+
+set counter 0
+foreach album $albums {
+    puts "\t[incr counter]. $album"
+
+    # Get the list of tracks for this album
+    set tracks [mpd db find Artist $artist Album $album]
+
+    # Loop through the tracks for each album, printing the properties as we go
+    dict for {uri track} $tracks {
+        dict with track {
+            puts "\t\t$Track. $Title"
+
+            foreach prop [dict keys $track *] {
+                puts "\t\t\t$prop >>> [set $prop]"
+            }
+
+        }
+    }
+}
+
+~~~~
+
+## decoderInfo
+
+Similar to trackInfo, decoderInfo dicts are keyed on the name of the decoder.
+
+## outputInfo
+
+Like its trackInfo and decoderInfo cousins, outputInfo dicts are keyed on the
+outputid. The output ID is included as a property, as well.
+
 # API Documentation
 
 This script implements the mpd command namespace. Everything will be

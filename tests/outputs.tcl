@@ -15,14 +15,13 @@ mpd connect localhost 6600
 
 set outputs [mpd output list]
 
-set counter -1
-foreach output $outputs {
-    puts "outputs([incr counter])>'$output'"
-}
+set counter 0
+dict for {output info} $outputs {
+    puts "[incr counter]. $output"
 
-foreach output $outputs {
-    set out [msg::getValue $output plugin]
-    msg::printReply $out $output
+    foreach prop [dict keys $info] {
+        puts "\t$prop: [dict get $info $prop]"
+    }
 }
 
 mpd disconnect

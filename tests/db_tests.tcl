@@ -26,16 +26,23 @@ set albums [mpd db list Album Artist $artist]
 puts [string repeat - 20]
 puts ">>> $artist Albums <<<"
 
-set counter -1
+set counter 0
 foreach album $albums {
     puts "\t[incr counter]. $album"
 
     # Get the list of tracks for this album
     set tracks [mpd db find Artist $artist Album $album]
 
-    foreach track $tracks {
-        array set tinfo $track
-        puts "\t\t$tinfo(Track). $tinfo(Title)"
+    # Loop through the tracks for each album, printing the properties as we go
+    dict for {uri track} $tracks {
+        dict with track {
+            puts "\t\t$Track. $Title"
+
+            foreach prop [dict keys $track *] {
+                puts "\t\t\t$prop >>> [set $prop]"
+            }
+
+        }
     }
 }
 

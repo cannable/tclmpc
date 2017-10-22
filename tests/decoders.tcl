@@ -15,14 +15,14 @@ mpd connect localhost 6600
 
 set decoders [mpd info decoders]
 
-set counter -1
-foreach decoder $decoders {
-    debug "decoders([incr counter])>'$decoder'"
-}
+set counter 0
 
-foreach decoder $decoders {
-    set plugin [msg::getValue $decoder plugin]
-    msg::printReply $plugin $decoder
+dict for {decoder info} $decoders {
+    puts "[incr counter]. $decoder"
+
+    foreach prop [dict keys $info] {
+        puts "\t$prop: [dict get $info $prop]"
+    }
 }
 
 mpd disconnect

@@ -162,9 +162,13 @@ namespace eval msg {
 
     # msg::mkStructuredList --
     #
-    #           Creates a structured list from a flat, unstructured one.
-    #           Extracts list items between marker indexes, then lappends the
-    #           extracted items as a new list item.
+    #           Assembles a multi-level dict from a flat key-value list.
+    #           Extracts list items between marker indexes and inserts this
+    #           into a dict.
+    #
+    #           A good example of this structure is the trackInfo format, which
+    #           is keyed on track uri. To stay out of danger, read through some
+    #           of the pre-canned structures in the documentation.
     #
     # Arguments:
     #           data    Flat list of many objects
@@ -172,10 +176,10 @@ namespace eval msg {
     #                   related attributes
     #
     # Results:
-    #           Returns a multi-level list 
+    #           Returns a multi-level dict
     #
     proc mkStructuredList {data marker} {
-        set output {}
+        set output [dict create]
 
         # Find all file keys
         set keys [lsearch -exact -all $data $marker]
@@ -185,7 +189,10 @@ namespace eval msg {
         # If we only have one key, return right away
         if {[llength $keys] == 1} {
             debug "There's only one item in this list. Returning."
-            return [list $data]
+
+            dict set output [lindex $data 1] $data
+
+            return $output
         }
 
         # Guess at the length of each record
@@ -195,11 +202,11 @@ namespace eval msg {
 
         # Extract list elements between markers, appending them to output
         foreach index $keys {
+            set key [lindex $data $index+1]
             set itemInfo [lrange $data $index [expr $index + $recordLength]]
-            lappend output $itemInfo
-        }
 
-        debug "output: '$output'"
+            dict set output $key $itemInfo
+        }
 
         return $output
     }
