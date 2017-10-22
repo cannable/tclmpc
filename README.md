@@ -23,6 +23,10 @@ only as an overkill-level test suite of the API.
 
 Because.
 
+## Requirements
+
+* Tcl 8.5+ (uses a bunch of newer language features, like {*}, dicts, etc.)
+
 ## Status
 
 After writing the base bits for communicating with MPD, I started with the
