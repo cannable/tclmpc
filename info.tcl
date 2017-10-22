@@ -75,68 +75,50 @@ namespace eval mpd::info {
 
     # mpd::info::currentsong --
     #
-    #           Tell MPD to send us the current song details
+    #           Ask MPD for info on the current song
     #
     # Arguments:
     #           none
     #
     # Results:
-    #           MPD will send us a message with the requested info
+    #           Returns a key-value list of info on the current song
     #
     proc currentsong {} {
-        set msg [comm::sendCommand "currentsong"]
-
-        # Check for error state
-        switch -glob -- $msg {
-            {OK} {
-                # Nothing is playing
-                return {}
-            }
-            default {
-                msg::printReply currentsong $msg
-            }
+        if {![mpd is playing]} {
+            return {}
         }
 
-        return $msg
-
+        return [comm::sendCommand "currentsong"]
     }
 
 
     # mpd::info::status --
     #
-    #           Tell MPD to send us info about MPD's status
+    #           Ask MPD for info on its current state
     #
     # Arguments:
     #           none
     #
     # Results:
-    #           MPD will send us a message with the requested info
+    #           Returns a key-value list of the status info
     #
     proc status {} {
-        set msg [comm::sendCommand "status"]
-
-        msg::printReply status $msg
-
-        return $msg
+        return [comm::sendCommand "status"]
     }
 
 
     # mpd::info::stats --
     #
-    #           Tell MPD to send us info about MPD stats
+    #           Ask MPD to send us stats
     #
     # Arguments:
     #           none
     #
     # Results:
-    #           MPD will send us a message with the requested info
+    #           Returns a key-value list of various stats
     #
     proc stats {} {
-        set msg [comm::sendCommand "stats"]
-
-        msg::printReply stats $msg
-
-        return $msg
+        return [comm::sendCommand "stats"]
     }
 
 
