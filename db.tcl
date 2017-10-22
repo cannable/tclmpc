@@ -54,11 +54,6 @@ namespace eval mpd::db {
         debug "find $args"
         set msg [comm::sendCommand "find $query"]
 
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            error [msg::decodeAck $msg]
-        }
-
         return [msg::mkStructuredList $msg file]
     }
 
@@ -80,11 +75,6 @@ namespace eval mpd::db {
         debug "query: $query"
         debug "search $args"
         set msg [comm::sendCommand "search $query"]
-
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            error [msg::decodeAck $msg]
-        }
 
         return [msg::mkStructuredList $msg file]
     }
@@ -108,11 +98,6 @@ namespace eval mpd::db {
         set query [msg::sanitize $args]
         set msg [comm::sendCommand "list $query"]
         set results {}
-
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            error [msg::decodeAck $msg]
-        }
 
         foreach {type item} $msg {
             lappend results $item
@@ -148,11 +133,6 @@ namespace eval mpd::db {
         }
 
         set msg [comm::sendCommand $cmd]
-
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            error [msg::decodeAck $msg]
-        }
 
         set jobid [msg::getValue $msg updating_db]
 

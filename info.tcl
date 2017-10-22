@@ -50,22 +50,12 @@ namespace eval mpd::info {
         set msg [comm::sendCommand "commands"]
         set rights {}
 
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            error [msg::decodeAck $msg]
-        }
-
         foreach {right command} $msg {
             lappend rights $command allow
         }
 
         # Repeat logic to grab denies
         set msg [comm::sendCommand "notcommands"]
-
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            error [msg::decodeAck $msg]
-        }
 
         # Bail right now if there are no denies
         if {[string match {OK*} $msg]} {
@@ -102,9 +92,6 @@ namespace eval mpd::info {
                 # Nothing is playing
                 return {}
             }
-            {ACK*} {
-                error [msg::decodeAck $msg]
-            }
             default {
                 msg::printReply currentsong $msg
             }
@@ -128,11 +115,6 @@ namespace eval mpd::info {
     proc status {} {
         set msg [comm::sendCommand "status"]
 
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            error [msg::decodeAck $msg]
-        }
-
         msg::printReply status $msg
 
         return $msg
@@ -151,11 +133,6 @@ namespace eval mpd::info {
     #
     proc stats {} {
         set msg [comm::sendCommand "stats"]
-
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            error [msg::decodeAck $msg]
-        }
 
         msg::printReply stats $msg
 
@@ -176,11 +153,6 @@ namespace eval mpd::info {
     proc replaygain {} {
         set msg [comm::sendCommand "replay_gain_status"]
 
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            return 1
-        }
-
         return [lindex $msg end]
     }
 
@@ -197,11 +169,6 @@ namespace eval mpd::info {
     #
     proc decoders {} {
         set msg [comm::sendCommand "decoders"]
-
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            return 1
-        }
 
         return [msg::mkStructuredList $msg plugin]
     }

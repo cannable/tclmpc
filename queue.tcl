@@ -115,11 +115,6 @@ namespace eval mpd::queue {
         set safeuri [msg::sanitize $uri]
         set msg [comm::sendCommand "addid \"$safeuri\" $pos"]
 
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            return 1
-        }
-
         debug "Inserted at [lindex $msg end]"
 
         return [lindex $msg end]

@@ -63,11 +63,6 @@ namespace eval mpd::config {
         # Send the config change command
         set msg [comm::sendCommand "consume $sendValue"]
 
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            return 1
-        }
-
         # Verify the config change happened
         set consume [msg::getValue [mpd info status] consume]
         if {$consume!=$sendValue} {
@@ -105,11 +100,6 @@ namespace eval mpd::config {
 
         # Send the config change command
         set msg [comm::sendCommand "random $sendValue"]
-
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            return 1
-        }
 
         # Verify the config change happened
         set consume [msg::getValue [mpd info status] random]
@@ -149,11 +139,6 @@ namespace eval mpd::config {
         # Send the config change command
         set msg [comm::sendCommand "repeat $sendValue"]
 
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            return 1
-        }
-
         # Verify the config change happened
         set consume [msg::getValue [mpd info status] repeat]
         if {$consume!=$sendValue} {
@@ -192,11 +177,6 @@ namespace eval mpd::config {
         # Send the config change command
         set msg [comm::sendCommand "single $sendValue"]
 
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            return 1
-        }
-
         # Verify the config change happened
         set consume [msg::getValue [mpd info status] single]
         if {$consume!=$sendValue} {
@@ -232,11 +212,6 @@ namespace eval mpd::config {
         # Send the config change command
         set msg [comm::sendCommand "setvol $vol"]
 
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            return 1
-        }
-
         # Verify the config change happened
         set mpdvol [msg::getValue [mpd info status] volume]
         if {$mpdvol!=$vol} {
@@ -268,11 +243,6 @@ namespace eval mpd::config {
         # Send the config change command
         set msg [comm::sendCommand "crossfade $s"]
 
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            return 1
-        }
-
         # Verify the config change happened
         set xfade [msg::getValue [mpd info status] xfade]
         if {$xfade!=$s} {
@@ -303,11 +273,6 @@ namespace eval mpd::config {
 
         # Send the config change command
         set msg [comm::sendCommand "replay_gain_mode $state"]
-
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            return 1
-        }
 
         # Verify the config change happened
         set msg [comm::sendCommand "replay_gain_status"]

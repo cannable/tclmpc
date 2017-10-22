@@ -51,11 +51,6 @@ namespace eval mpd::output {
 
         debug "msg: $msg"
 
-        # Check for error state
-        if {[string match {ACK*} $msg]} {
-            return 1
-        }
-
         return [msg::mkStructuredList $msg outputid]
     }
 
