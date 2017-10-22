@@ -13,8 +13,8 @@ proc debug {text} {
 
 mpd connect localhost 6600
 
-mpd info currentsong
-mpd info status
-mpd info stats
+msg::printReply currentsong [mpd info currentsong]
+msg::printReply status [mpd info status]
+msg::printReply stats [mpd info stats]
 
 mpd disconnect
