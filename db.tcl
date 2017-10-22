@@ -122,6 +122,45 @@ namespace eval mpd::db {
     }
 
 
+    # mpd::db::update --
+    #
+    #           Scan for modified files and update the DB. Scope of the scan is
+    #           controlled by args: if nothing is passed, everything is
+    #           scanned. Pass a file or directory to scan a fragment of the
+    #           library.
+    #
+    # Arguments:
+    #           args    URI to update
+    #
+    # Results:
+    #           The entire DB, or the passed URI, will be rescanned by MPD.
+    #           Returns a jobid.
+    #
+    proc update {args} {
+        if {[llength $args] > 1} {
+            error "Update must receive 0 or 1 arguments."
+        }
+
+        if {[llength $args]} {
+            set cmd "update [msg::sanitize $args]"
+        } else {
+            set cmd update
+        }
+
+        set msg [comm::sendCommand $cmd]
+
+        # Check for error state
+        if {[string match {ACK*} $msg]} {
+            error [msg::decodeAck $msg]
+        }
+
+        set jobid [msg::getValue $msg updating_db]
+
+        debug "jobid: $jobid"
+        return $jobid
+    }
+
+
     namespace export *
     namespace ensemble create
 }

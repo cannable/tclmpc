@@ -309,6 +309,12 @@ passed, verbatim. to the message sent to MPD.
 Lists objects by passed tag criteria. The contents of args are passed,
 verbatim. to the message sent to MPD.
 
+#### mpd db update {args}
+
+Scan for modified files and update the DB. Scope of the scan is controlled by
+args: if nothing is passed, everything is scanned. Pass a file or directory to
+scan a fragment of the library.
+
 ### Outputs
 
 Common variables:
@@ -386,12 +392,6 @@ Sets track priority
 Swap a and b in the queue
 
 ### Database
-
-#### mpd db update {args}
-
-Scan for modified files and update the DB. Scope of the scan is controlled by
-args: if nothing is passed, everything is scanned. Pass a file or directory to
-scan a fragment of the library.
 
 #### mpd db rescan {args}
 
