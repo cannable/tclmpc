@@ -53,7 +53,7 @@ namespace eval msg {
         puts [string repeat - 20]
         puts ">>> $title <<<"
 
-        foreach {key value} $data {
+        dict for {key value} $data {
             puts "|$key|$value|"
         }
 
@@ -138,28 +138,25 @@ namespace eval msg {
 
     # msg::getValue --
     #
-    #           Given a reply string, return the value for the passed, key.
-    #           This is a really stupid function, as it could match against a
-    #           value and the next pair's key. This should be fine within the
-    #           context of MPD, but I'm probably going to re-write it.
+    #           Simple wrapper around dict get to return 0 if no key exists.
     #
     # Arguments:
-    #           msg list-format reply string
+    #           data    dict, key-value, data
+    #           key     key to retrieve
     #
     # Results:
-    #           0 if no value found
-    #           Otherwise, the value of the requested key
+    #           Returns the value of the requested key.
+    #           If the key doesn't exist, return 0
     #
-    proc getValue {reply key} {
-        # TODO: Re-write this so that it is less stupid
-        set index [lsearch $reply $key]
+    proc getValue {data key} {
 
         # MPD doesn't always return the status of config items that are off
         # As a result, assume that anything not included in the data is 0
-        if {$index < 0} {
+        if {![dict exists $data $key]} {
             return 0
         }
-        return [lindex $reply $index+1]
+
+        return [dict get $data $key]
     }
 
 

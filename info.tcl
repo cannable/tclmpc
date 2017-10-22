@@ -88,7 +88,7 @@ namespace eval mpd::info {
             return {}
         }
 
-        return [comm::sendCommand "currentsong"]
+        return [dict create {*}[comm::sendCommand "currentsong"]]
     }
 
 
@@ -103,7 +103,7 @@ namespace eval mpd::info {
     #           Returns a key-value list of the status info
     #
     proc status {} {
-        return [comm::sendCommand "status"]
+        return [dict create {*}[comm::sendCommand "status"]]
     }
 
 
@@ -118,7 +118,7 @@ namespace eval mpd::info {
     #           Returns a key-value list of various stats
     #
     proc stats {} {
-        return [comm::sendCommand "stats"]
+        return [dict create {*}[comm::sendCommand "stats"]]
     }
 
 
