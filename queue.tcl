@@ -94,9 +94,7 @@ namespace eval mpd::queue {
     #           Returns 0 if the track/directory was added; 1 otherwise
     #
     proc add {uri} {
-        set safeuri [msg::sanitize $uri]
-        debug "safeuri: $safeuri"
-        return [comm::sendCommand "add \"$safeuri\""]
+        comm::simpleSendCommand [format {add "%s"} [msg::sanitize $uri]]
     }
 
 
@@ -112,8 +110,8 @@ namespace eval mpd::queue {
     #           Returns id
     #
     proc insert {uri pos} {
-        set safeuri [msg::sanitize $uri]
-        set msg [comm::sendCommand "addid \"$safeuri\" $pos"]
+        set cmdline [format {addid "%s" %s} [msg::sanitize $uri] $pos]
+        set msg [comm::sendCommand $cmdline]
 
         debug "Inserted at [lindex $msg end]"
 
