@@ -85,32 +85,6 @@ namespace eval msg {
     }
 
 
-    # msg:checkReply --
-    #
-    #           Checks a reply from MPD to see if the corresponding command
-    #           sent was successful. This is a helper proc for the simple
-    #           send-command-then-wait-for-OK procedures. There are many such
-    #           procs in this library, so I want to reduce as much copy &
-    #           pasted code as possible.
-    #
-    # Arguments:
-    #           command The command to which this is a reply
-    #           reply   Message back from MPD
-    #
-    # Results:
-    #           This is mostly just a debugging procedure to make message
-    #           content easier to read.
-    #
-    proc checkReply {reply} {
-        # Check for error state
-        if {[string match {ACK*} $reply]} {
-            return 1
-        }
-
-        return 0
-    }
-
-
     # msg::decodeReply --
     #
     #           Assembles a key-value list of message contents.

@@ -115,6 +115,41 @@ namespace eval comm {
     }
 
 
+    # comm::simpleSendCommand --
+    #
+    #           This is a simple wrapper around sendCommand that returns either
+    #           0 or 1, depending on whether the return message from MPD is
+    #           'OK' or not.
+    #
+    #           This is here to help make simple, shotgun-style (where we don't
+    #           really care what MPD has to say about the command we sent it,
+    #           as long as there wasn't an error), commands cleaner. Simply
+    #           returning the 'OK' from sendCommand, while easier, isn't clean
+    #           from an API-perspective.
+    #
+    #           NOTE: Any errors will be thrown outside this proc, so we're not
+    #           handling any here.
+    #
+    # Arguments:
+    #           command Command to send to the server
+    #           args    Any command arguments to send MPD
+    #
+    # Results:
+    #           Calls sendCommand to tell MPD what to do with itself.
+    #
+    #           Returns 0 if we get an 'OK' response from MPD; 1, otherwise.
+    #
+    proc simpleSendCommand {command args} {
+        set reply [sendCommand $command {*}$args]
+
+        if {[string match {*OK} $reply]} {
+            return 0
+        }
+
+        return 1
+    }
+
+
     # comm::sendCommand --
     #
     #           Send a command to a connected MPD server

@@ -106,7 +106,7 @@ namespace eval mpd {
                 set sendValue 0
             }
 
-            return [msg::checkReply [comm::sendCommand pause $sendValue]]
+            return [comm::simpleSendCommand pause $sendValue]
         }
     }
 
@@ -150,7 +150,7 @@ namespace eval mpd {
     #           mpd will start playing the next track
     #
     proc next {} {
-        return [msg::checkReply [comm::sendCommand next]]
+        comm::simpleSendCommand next
     }
 
 
@@ -165,7 +165,7 @@ namespace eval mpd {
     #           MPD will start playing the previous track
     #
     proc prev {} {
-        return [msg::checkReply [comm::sendCommand previous]]
+        comm::simpleSendCommand previous
     }
 
 
@@ -180,7 +180,7 @@ namespace eval mpd {
     #           MPD will start playing the requested song
     #
     proc play {songpos} {
-        return [msg::checkReply [comm::sendCommand "play $songpos"]]
+        comm::simpleSendCommand "play $songpos"
     }
 
 
@@ -195,7 +195,7 @@ namespace eval mpd {
     #           MPD will stop playing
     #
     proc stop {} {
-        return [msg::checkReply [comm::sendCommand stop]]
+        comm::simpleSendCommand stop
     }
 
 
@@ -220,7 +220,7 @@ namespace eval mpd {
             error "Seek seconds must be a double.'
         }
 
-        return [msg::checkReply [comm::sendCommand "seekcur $s"]]
+        return [comm::simpleSendCommand "seekcur $s"]
     }
 
 

@@ -66,7 +66,7 @@ namespace eval mpd::output {
     #           MPD will disable the passed output
     #
     proc disable {id} {
-        return [msg::checkReply [comm::sendCommand "disableoutput $id"]]
+        comm::simpleSendCommand "disableoutput $id"
     }
 
 
@@ -81,7 +81,7 @@ namespace eval mpd::output {
     #           MPD will enable the passed output
     #
     proc enable {id} {
-        return [msg::checkReply [comm::sendCommand "enableoutput $id"]]
+        comm::simpleSendCommand "enableoutput $id"
     }
 
 
@@ -96,7 +96,7 @@ namespace eval mpd::output {
     #           MPD will enable or disable the passed output
     #
     proc toggle {id} {
-        return [msg::checkReply [comm::sendCommand "toggleoutput $id"]]
+        comm::simpleSendCommand "toggleoutput $id"
     }
 
 

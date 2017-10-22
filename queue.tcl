@@ -48,7 +48,7 @@ namespace eval mpd::queue {
     #           Returns 0 if the queue was purged; 1 otherwise
     #
     proc clear {} {
-        return [msg::checkReply [comm::sendCommand clear]]
+        comm::simpleSendCommand clear
     }
 
 
@@ -79,7 +79,7 @@ namespace eval mpd::queue {
     #           Returns 0 if the queue was shuffled; 1 otherwise
     #
     proc shuffle {} {
-        return [msg::checkReply [comm::sendCommand shuffle]]
+        comm::simpleSendCommand shuffle
     }
 
 
@@ -96,7 +96,7 @@ namespace eval mpd::queue {
     proc add {uri} {
         set safeuri [msg::sanitize $uri]
         debug "safeuri: $safeuri"
-        return [msg::checkReply [comm::sendCommand "add \"$safeuri\""]]
+        return [comm::sendCommand "add \"$safeuri\""]
     }
 
 
@@ -133,7 +133,7 @@ namespace eval mpd::queue {
     #           Removes the requested track(s) from the play queue
     #
     proc delete {pos} {
-        return [msg::checkReply [comm::sendCommand "delete $pos"]]
+        comm::simpleSendCommand "delete $pos"
     }
 
 
@@ -148,7 +148,7 @@ namespace eval mpd::queue {
     #           Removes the requested track from the play queue
     #
     proc deleteid {id} {
-        return [msg::checkReply [comm::sendCommand "deleteid $id"]]
+        comm::simpleSendCommand "deleteid $id"
     }
 
 
