@@ -184,6 +184,62 @@ namespace eval mpd::playlist {
     }
 
 
+    # mpd::playlist::clear --
+    #
+    #           Wipe the contents a playlist
+    #
+    # Arguments:
+    #           name    Name of the playlist to blank
+    #
+    # Results:
+    #           Returns 0 if the playlist was successfully cleared.
+    #
+    proc clear {name} {
+        # Check for existing playlist
+        if {![mpd playlist exists $name]} {
+            return \
+                -code error \
+                -errorinfo "Playlist '$name' does not exist."
+        }
+
+        set cmd [format {playlistclear "%s"} [msg::sanitize $name]]
+        return [comm::simpleSendCommand {*}$cmd]
+    }
+
+
+    # mpd::playlist::rename --
+    #
+    #           Rename a playlist
+    #
+    # Arguments:
+    #           name    Current name of the playlist
+    #           newName Future name of the playlist
+    #
+    # Results:
+    #           Returns 0 if the playlist was successfully renamed.
+    #
+    proc rename {name newName} {
+        # Check for existing playlists
+        if {![mpd playlist exists $name]} {
+            return \
+                -code error \
+                -errorinfo "Playlist '$name' does not exist."
+        }
+
+        if {[mpd playlist exists $newName]} {
+            return \
+                -code error \
+                -errorinfo "Playlist '$newName' exists."
+        }
+
+        set cmd [format {rename "%s" "%s"} \
+            [msg::sanitize $name] \
+            [msg::sanitize $newName]]
+
+        return [comm::simpleSendCommand {*}$cmd]
+    }
+
+
     namespace export *
     namespace ensemble create
 

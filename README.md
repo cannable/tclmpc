@@ -453,6 +453,14 @@ Returns a trackInfo dict for the passed playlist, a la "listplaylistinfo".
 
 Returns a playlistInfo dict containing trackInfo dicts in the Tracks key.
 
+#### mpd playlist clear {name}
+
+Blank the contents of the passed playlist.
+
+#### mpd playlist rename {name newName}
+
+Rename the playlist.
+
 ## Work In Progress/To-Do List
 
 ### Playlists
@@ -469,17 +477,9 @@ Load the passed playlist into the playback queue.
 
 Add the track specified by uri to the playlist.
 
-#### mpd playlist clear {name}
-
-Blank the contents of the passed playlist.
-
 #### mpd playlist delete {name songpos}
 
 Delete the track at songpos from the passed playlist.
-
-#### mpd playlist rename {name newName}
-
-Rename the playlist.
 
 ### Queue
 
