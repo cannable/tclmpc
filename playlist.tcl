@@ -100,6 +100,31 @@ namespace eval mpd::playlist {
     }
 
 
+    # mpd::playlist::allInfo --
+    #
+    #           Retrieves all track info for all playlists. This is here for
+    #           convenience.
+    #
+    # Arguments:
+    #           none
+    #
+    # Results:
+    #           Returns a playlistInfo dict with trackInfo dicts stashed in the
+    #           Tracks
+    #
+    proc allInfo {} {
+        set playlistInfo [mpd playlist list]
+
+        # Loop through each playlist and tack on track info
+        dict for {playlist data} $playlistInfo {
+            set trackInfo [mpd playlist info $playlist]
+            dict set playlistInfo $playlist Tracks $trackInfo
+        }
+
+        return $playlistInfo
+    }
+
+
     # mpd::playlist::exists --
     #
     #           Check to see if the passed playlist name exists

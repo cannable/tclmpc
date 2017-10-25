@@ -106,7 +106,14 @@ outputid. The output ID is included as a property, as well.
 
 ## playlistInfo
 
-Ditto for playlists. Playlist name is the key.
+Ditto for playlists. Playlist name is the key. This may or may not contain
+track info in the Tracks key for each playlist, depending on where you get your
+info. If you call 'playlist info', then you won't have track info. To get track
+info, call 'playlist allInfo'.
+
+The two different commands were written to give the client some flexibility in
+scenarios where it doesn't need to have all of this info, and maybe shouldn't
+(ex. when the MPD DB has a ton of playlists with a ton of tracks).
 
 # API Documentation
 
@@ -423,7 +430,8 @@ Common variables:
 
 #### mpd playlist list {}
 
-Lists all playlists.
+Returns a playlistInfo dict of all playlists. At the time of writing, only
+playlist and Last-Modified are returned. For track info as well, see allInfo.
 
 #### mpd playlist exists {name}
 
@@ -439,7 +447,11 @@ Save the playlist.
 
 #### mpd playlist info {name}
 
-Returns a key-value list of playlist info, a la "listplaylistinfo".
+Returns a trackInfo dict for the passed playlist, a la "listplaylistinfo".
+
+#### mpd playlist allInfo {}
+
+Returns a playlistInfo dict containing trackInfo dicts in the Tracks key.
 
 ## Work In Progress/To-Do List
 
