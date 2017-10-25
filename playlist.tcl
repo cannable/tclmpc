@@ -61,6 +61,21 @@ namespace eval mpd::playlist {
     }
 
 
+    # mpd::playlist::exists --
+    #
+    #           Check to see if the passed playlist name exists
+    #
+    # Arguments:
+    #           name
+    #
+    # Results:
+    #           Returns 1 if the playlist exists, 0 otherwise
+    #
+    proc exists {name} {
+        dict exists [mpd playlist list] $name
+    }
+
+
     # mpd::playlist::save --
     #
     #           Save the current queue as a new playlist
@@ -72,7 +87,13 @@ namespace eval mpd::playlist {
     #           Returns 0 if the playlist was successfully created.
     #
     proc save {name} {
-        # TODO: Check for existing playlist
+        # Check for existing playlist
+        if {[mpd playlist exists $name]} {
+            return \
+                -code error \
+                -errorinfo "Playlist '$name' already exists."
+        }
+
         comm::simpleSendCommand [format {save "%s"} [msg::sanitize $name]]
     }
 
@@ -88,7 +109,13 @@ namespace eval mpd::playlist {
     #           Returns 0 if the playlist was successfully removed.
     #
     proc rm {name} {
-        # TODO: Check for existing playlist
+        # Check for existing playlist
+        if {![mpd playlist exists $name]} {
+            return \
+                -code error \
+                -errorinfo "Playlist '$name' does not exist."
+        }
+
         comm::simpleSendCommand [format {rm "%s"} [msg::sanitize $name]]
     }
 
