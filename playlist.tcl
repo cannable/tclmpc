@@ -1,8 +1,8 @@
 #! /usr/bin/env tclsh
 
-# tclmpc.tcl --
+# playlist.tcl --
 #
-#     Provides an API for connecting to and driving musicpd server.
+#     Provides mpd playlist namespace functions for tclmpc.
 # 
 # Copyright 2017 C. Annable
 # 
@@ -31,86 +31,69 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-package require tclmpc::comm 0.1
-package require tclmpc::msg 0.1
-package require tclmpc::info 0.1
-package require tclmpc::config 0.1
-package require tclmpc::queue 0.1
-package require tclmpc::playback 0.1
-package require tclmpc::db 0.1
-package require tclmpc::output 0.1
-package require tclmpc::playlist 0.1
+package provide tclmpc::playlist 0.1
 
-package provide tclmpc 0.1
-
-# Define this proc in your code to test the library
-proc debug {text} {
-    #puts "DEBUG:[lindex [uplevel 1 {info level 0} ] 0]> $text"
-}
+namespace eval mpd::playlist {
 
 
-namespace eval mpd {
-
-
-    # mpd::ping --
+    # mpd::playlist::list --
     #
-    #           Pings MPD
+    #           Get a list of all playlists in MPD
     #
     # Arguments:
     #           none
     #
     # Results:
-    #           Returns 1 if we have an active connection to MPD.
-    #           Returns 0 if we don't have a usable connection to MPD.
+    #           Returns a list of all playlists.
     #
-    proc ping {} {
-        # If we don't even have an open socket, fail
-        if {! [comm::isconnected]} {
-            return 0
+    proc list {} {
+        set msg [comm::sendCommand listplaylists]
+
+        # Bail right now if there are no denies
+        if {[string match {OK*} $msg]} {
+            debug "No playlists"
+            return {}
         }
 
-        set msg [comm::sendCommand "ping"]
-        
-        # If we got an OK from MPD, we're all set
-        if {[string match {OK} $msg]} {
-            return 1
-        }
-
-        return 0
+        # Assemble a playlistList dict
+        # TODO: Add in track info for each playlist
+        return [msg::mkStructuredList $msg playlist]
     }
 
 
-    # mpd::connect --
+    # mpd::playlist::save --
     #
-    #           Connect to an MPD server
+    #           Save the current queue as a new playlist
     #
     # Arguments:
-    #           none
+    #           name    Name of the playlist to create
     #
     # Results:
-    #           Connects to MPD
+    #           Returns 0 if the playlist was successfully created.
     #
-    proc connect {server port} {
-        comm::connect $server $port
+    proc save {name} {
+        # TODO: Check for existing playlist
+        comm::simpleSendCommand [format {save "%s"} [msg::sanitize $name]]
     }
 
 
-    # mpd::disconnect --
+    # mpd::playlist::rm --
     #
-    #           Close connection to MPD
+    #           Remove a playlist
     #
     # Arguments:
-    #           none
+    #           name    Name of the playlist to remove
     #
     # Results:
-    #           Closes MPD connection
+    #           Returns 0 if the playlist was successfully removed.
     #
-    proc disconnect {} {
-        comm::disconnect
+    proc rm {name} {
+        # TODO: Check for existing playlist
+        comm::simpleSendCommand [format {rm "%s"} [msg::sanitize $name]]
     }
 
 
     namespace export *
     namespace ensemble create
-}
 
+}
