@@ -61,6 +61,45 @@ namespace eval mpd::playlist {
     }
 
 
+    # mpd::playlist::info --
+    #
+    #           Retrieves the track info for the passed playlist
+    #
+    # Arguments:
+    #           name    Name of the playlist
+    #
+    # Results:
+    #           Returns a trackInfo dict for the passed playlist
+    #
+    proc info {name} {
+        # Check for existing playlist
+        if {![mpd playlist exists $name]} {
+            return \
+                -code error \
+                -errorinfo "Playlist '$name' does not exist."
+        }
+
+        # This is a two-step process because of the phrasing used in the MPD
+        # docs for listplaylistinfo. Specifically, "lists the songs with
+        # metadata in the playlist." This implies that files without metadata
+        # will not be returned. Just in case, we're doing this two-pass.
+
+        # Step 1: Get the track list
+        set cmd [format {listplaylist "%s"} [msg::sanitize $name]]
+        set msg [comm::sendCommand {*}$cmd]
+
+        set tracks [msg::mkStructuredList $msg file]
+
+        # Step 2: Get metadata
+        set cmd [format {listplaylistinfo "%s"} [msg::sanitize $name]]
+        set msg [comm::sendCommand {*}$cmd]
+
+        set trackInfo [msg::mkStructuredList $msg file]
+
+        return [dict merge $tracks $trackInfo]
+    }
+
+
     # mpd::playlist::exists --
     #
     #           Check to see if the passed playlist name exists

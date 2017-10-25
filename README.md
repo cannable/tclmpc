@@ -104,6 +104,10 @@ Similar to trackInfo, decoderInfo dicts are keyed on the name of the decoder.
 Like its trackInfo and decoderInfo cousins, outputInfo dicts are keyed on the
 outputid. The output ID is included as a property, as well.
 
+## playlistInfo
+
+Ditto for playlists. Playlist name is the key.
+
 # API Documentation
 
 This script implements the mpd command namespace. Everything will be
@@ -411,8 +415,6 @@ Toggle the passed output.
 
 Return a list of all available outputs.
 
-## Work In Progress/To-Do List
-
 ### Playlists
 
 Common variables:
@@ -423,9 +425,29 @@ Common variables:
 
 Lists all playlists.
 
+#### mpd playlist exists {name}
+
+Checks to see if the passed playlist exists.
+
+#### mpd playlist rm {name}
+
+Nuke the passed playlist.
+
+#### mpd playlist save {name}
+
+Save the playlist.
+
 #### mpd playlist info {name}
 
 Returns a key-value list of playlist info, a la "listplaylistinfo".
+
+## Work In Progress/To-Do List
+
+### Playlists
+
+Common variables:
+
+* name - Playlist name
 
 #### mpd playlist load {name}
 
@@ -446,14 +468,6 @@ Delete the track at songpos from the passed playlist.
 #### mpd playlist rename {name newName}
 
 Rename the playlist.
-
-#### mpd playlist rm {name}
-
-Nuke the passed playlist.
-
-#### mpd playlist save {name}
-
-Save the playlist.
 
 ### Queue
 
