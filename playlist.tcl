@@ -207,6 +207,58 @@ namespace eval mpd::playlist {
     }
 
 
+    # mpd::playlist::append --
+    #
+    #           Append the contents of playlist into the play queue
+    #
+    # Arguments:
+    #           name    Name of the playlist to load
+    #
+    # Results:
+    #           Returns 0 if the playlist was successfully appended.
+    #
+    proc append {name} {
+        # Check for existing playlist
+        if {![mpd playlist exists $name]} {
+            return \
+                -code error \
+                -errorinfo "Playlist '$name' does not exist."
+        }
+
+        set cmd [format {load "%s"} [msg::sanitize $name]]
+        return [comm::simpleSendCommand {*}$cmd]
+    }
+
+
+    # mpd::playlist::load --
+    #
+    #           Load the contents of playlist into the play queue, emptying the
+    #           queue in the process.
+    #
+    #           NOTE: This is a break from the expected behaviour when thinking
+    #           in an MPD mindset - MPD will 'load' a playlist by appending the
+    #           tracks to the end of the queue. To make this more Tcl-like,
+    #           this was implemented as mpd::playlist::append instead.
+    #
+    # Arguments:
+    #           name    Name of the playlist to load
+    #
+    # Results:
+    #           Returns 0 if the playlist was successfully loaded.
+    #
+    proc load {name} {
+        # Check for existing playlist
+        if {![mpd playlist exists $name]} {
+            return \
+                -code error \
+                -errorinfo "Playlist '$name' does not exist."
+        }
+
+        mpd queue clear
+        return [mpd playlist append $name]
+    }
+
+
     # mpd::playlist::rename --
     #
     #           Rename a playlist

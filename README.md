@@ -14,7 +14,16 @@ whenever the mood struck me. I recently picked it up again and had several
 
 My goal is to keep this library relatively simple/thin. One with a familiarity
 with the MPD protocol should be able to intuit what one of these library
-functions done with a high degree of accuracy. At least, that's the idea.
+functions done with a high degree of accuracy. At least, that's the idea. Care
+was taken try and not overcomplicate things.
+
+There are exceptions to the above, however. In a couple places, the behaviour
+of the Tcl procedures does not match the MPD command of a matching name; most
+notably, 'playlist load'. In this particular case, the MPD load command appends
+a playlist to the queue. In Tcl, we're used to append, lappend, etc. As such,
+'playlist append' is more consistent with the language. As I said earlier, I
+tried to avoid doing this as much as possible. This project is intended to make
+writing an MPD client in Tcl easier, not confuse anyone using it.
 
 Ultimately, I'd like to base a minimal Tk-based client off of this library, if
 only as an overkill-level test suite of the API.
@@ -461,6 +470,14 @@ Blank the contents of the passed playlist.
 
 Rename the playlist.
 
+#### mpd playlist load {name}
+
+Load the passed playlist into the playback queue, wiping the existing queue.
+
+#### mpd playlist append {name}
+
+Appends the contents of the playlist to the queue.
+
 ## Work In Progress/To-Do List
 
 ### Playlists
@@ -468,10 +485,6 @@ Rename the playlist.
 Common variables:
 
 * name - Playlist name
-
-#### mpd playlist load {name}
-
-Load the passed playlist into the playback queue.
 
 #### mpd playlist addtrack {name uri}
 
@@ -507,6 +520,10 @@ Returns the album art binary blog from the MPD DB.
 ### Database
 #### mpd db count {TAG NEEDLE}
 #### mpd db get albumsByArtist {artist}
+
+#### mpd playlist insert {name}
+
+Load the contents of the passed playlist into the playback queue, wiping the existing queue.
 
 Convenience procedure to perform a search of the MPD DB.
 
