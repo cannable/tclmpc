@@ -13,6 +13,8 @@ proc debug {text} {
 
 mpd connect localhost 6600
 
-mpd {*}$::argv
+puts "Invoking:\n\n'mpd $::argv'\n"
+puts "Returned:\n"
+puts "'[mpd {*}$::argv]'\n"
 
 mpd disconnect
