@@ -58,6 +58,27 @@ namespace eval mpd {
         }
 
 
+        # mpd::is::paused --
+        #
+        #           See if MPD is paused
+        #
+        # Arguments:
+        #           none
+        #
+        # Results:
+        #           Returns 1 if MPD is paused
+        #
+        proc paused {} {
+            set state [msg::getValue [mpd info status] state]
+
+            if {[string match pause $state]} {
+                return 1
+            }
+
+            return 0
+        }
+
+
         # mpd::is::stopped --
         #
         #           See if MPD is stopped
