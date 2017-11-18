@@ -201,8 +201,7 @@ namespace eval msg {
         foreach index $keys {
             set key [lindex $data $index+1]
             set itemInfo [lrange $data $index [expr $index + $recordLength]]
-
-            dict set output [incr counter] $key $itemInfo
+            dict set output [incr counter] $itemInfo
         }
 
         return $output
