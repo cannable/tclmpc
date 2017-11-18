@@ -84,7 +84,7 @@ namespace eval mpd::info {
     #           Returns a key-value list of info on the current song
     #
     proc currentsong {} {
-        if {![mpd is playing]} {
+        if {[mpd is stopped]} {
             return {}
         }
 
