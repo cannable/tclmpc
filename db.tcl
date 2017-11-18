@@ -54,7 +54,7 @@ namespace eval mpd::db {
         debug "find $args"
         set msg [comm::sendCommand "find $query"]
 
-        return [msg::mkStructuredList $msg file]
+        return [msg::mkTrackInfo $msg]
     }
 
 
@@ -76,7 +76,7 @@ namespace eval mpd::db {
         debug "search $args"
         set msg [comm::sendCommand "search $query"]
 
-        return [msg::mkStructuredList $msg file]
+        return [msg::mkTrackInfo $msg]
     }
 
 

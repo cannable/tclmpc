@@ -88,13 +88,13 @@ namespace eval mpd::playlist {
         set cmd [format {listplaylist "%s"} [msg::sanitize $name]]
         set msg [comm::sendCommand {*}$cmd]
 
-        set tracks [msg::mkStructuredList $msg file]
+        set tracks [msg::mkTrackInfo $msg]
 
         # Step 2: Get metadata
         set cmd [format {listplaylistinfo "%s"} [msg::sanitize $name]]
         set msg [comm::sendCommand {*}$cmd]
 
-        set trackInfo [msg::mkStructuredList $msg file]
+        set trackInfo [msg::mkTrackInfo $msg]
 
         return [dict merge $tracks $trackInfo]
     }
