@@ -54,13 +54,15 @@ to outlining these formats.
 
 Tracks are represented as trackInfo dicts. Each top-level key in the dict
 represents a separate track (in this way we can juggle multiple tracks easily).
-The track key is the uri to the song, as this is guaranteed to be unique in the
-MPD database. The uri is also contained in the properties of the track.
+The track key is an integer, typically representing the track's position in the
+playlist or album. NOTE: the order is completely dependant on the order in
+which MPD sends us the tracks. In most cases, you should rely on the track
+number and position subkeys.
 
 If we were to show this structure as a bulleted list, the structure would be
 similar to the following:
 
-* uri
+* id
     * file (this is the uri)
     * Last-Modified
     * Time
@@ -72,7 +74,7 @@ similar to the following:
     * AlbumArtist
     * Date
     * Track
-* uri #2
+* id #2
     * file (this is the uri)
     * ...
     * Track
@@ -90,7 +92,7 @@ foreach album $albums {
     set tracks [mpd db find Artist $artist Album $album]
 
     # Loop through the tracks for each album, printing the properties as we go
-    dict for {uri track} $tracks {
+    dict for {id track} $tracks {
         dict with track {
             puts "\t\t$Track. $Title"
 
