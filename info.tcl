@@ -152,7 +152,7 @@ namespace eval mpd::info {
     proc decoders {} {
         set msg [comm::sendCommand "decoders"]
 
-        return [msg::mkStructuredList $msg plugin]
+        return [msg::mkDecoderInfo $msg]
     }
 
 

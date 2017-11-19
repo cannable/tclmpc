@@ -208,6 +208,52 @@ namespace eval msg {
     }
 
 
+    # msg::mkDecoderInfo --
+    #
+    #           Assembles a multi-level dict from a flat key-value list.
+    #           Extracts list items between marker indexes and inserts this
+    #           into a decoderInfo dict.
+    #
+    # Arguments:
+    #           data    Flat list of many tracks
+    #
+    # Results:
+    #           Returns a multi-level dict
+    #
+    proc mkDecoderInfo {data} {
+        set output [dict create]
+
+        set pluginData [dict create]
+        set counter -1
+
+        foreach {key value} $data {
+            if {[string match plugin $key]} {
+                # Found new plugin
+                debug "New plugin"
+                debug "dict size: '[dict size $pluginData]'"
+                if {[dict size $pluginData]} {
+                    # Stash data for last plugin
+                    debug "dict set output [incr counter] $pluginData"
+                    dict set output [incr counter] $pluginData
+                }
+
+                # Reset data for new plugin
+                set pluginData [dict create]
+                dict set pluginData $key $value
+            } else {
+                # Tack on data to this plugin
+                dict lappend pluginData $key $value
+            }
+         }
+
+        # Stash data for last plugin
+        dict set output [incr counter] $pluginData
+
+        return $output
+
+    }
+
+
     # msg::mkStructuredList --
     #
     #           Assembles a multi-level dict from a flat key-value list.
