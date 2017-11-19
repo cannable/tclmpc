@@ -177,32 +177,31 @@ namespace eval msg {
     proc mkTrackInfo {data} {
         set output [dict create]
 
-        # Find all file keys
-        set keys [lsearch -exact -all $data file]
-
-        debug "keys: $keys"
-
-        # If we only have one key, return right away
-        if {[llength $keys] == 1} {
-            debug "There's only one item in this list. Returning."
-
-            dict set output 0 $data
-
-            return $output
-        }
-
-        # Guess at the length of each record
-        set recordLength [expr [lindex $keys 1] - 1]
-
-        debug "recordLength: $recordLength"
-
-        # Extract list elements between markers, appending them to output
+        set trackData [dict create]
         set counter -1
-        foreach index $keys {
-            set key [lindex $data $index+1]
-            set itemInfo [lrange $data $index [expr $index + $recordLength]]
-            dict set output [incr counter] $itemInfo
-        }
+
+        foreach {key value} $data {
+            if {[string match file $key]} {
+                # Found new track
+                debug "New track"
+                debug "dict size: '[dict size $trackData]'"
+                if {[dict size $trackData]} {
+                    # Stash data for last track
+                    debug "dict set output [incr counter] $trackData"
+                    dict set output [incr counter] $trackData
+                }
+
+                # Reset data for new track
+                set trackData [dict create]
+                dict set trackData $key $value
+            } else {
+                # Tack on data to this track
+                dict lappend trackData $key $value
+            }
+         }
+
+        # Stash data for last track
+        dict set output [incr counter] $trackData
 
         return $output
     }
@@ -250,7 +249,6 @@ namespace eval msg {
         dict set output [incr counter] $pluginData
 
         return $output
-
     }
 
 
