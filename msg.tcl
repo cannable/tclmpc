@@ -319,6 +319,9 @@ namespace eval msg {
     #           Returns a "cleaned" string
     #
     proc sanitize {string} {
-        return [regsub -all -- {\{|\}} $string \"]
+        set output [regsub -all -- {\{|\}} $string \"]
+        set output [regsub -all -- {\"{2,}} $output \"]
+
+        return $output
     }
 }
