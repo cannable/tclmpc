@@ -34,7 +34,7 @@ foreach album $albums {
     set tracks [mpd db find Artist $artist Album $album]
 
     # Loop through the tracks for each album, printing the properties as we go
-    dict for {uri track} $tracks {
+    dict for {trackId track} $tracks {
         dict with track {
             puts "\t\t$Track. $Title"
 

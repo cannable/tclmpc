@@ -186,7 +186,7 @@ namespace eval msg {
         if {[llength $keys] == 1} {
             debug "There's only one item in this list. Returning."
 
-            dict set output 0 [lindex $data 1] $data
+            dict set output 0 $data
 
             return $output
         }
