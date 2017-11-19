@@ -13,15 +13,19 @@ proc debug {text} {
 
 mpd connect localhost 6600
 
-set decoders [mpd info decoders]
+dict for {idx decInfo} [mpd info decoders] {
+    dict with decInfo {
+        puts ">>>>> $plugin <<<<<"
 
-set counter 0
+        puts "\tsuffix:"
+        foreach s [lsort $suffix] {
+            puts "\t\t$s"
+        }
 
-dict for {decoder info} $decoders {
-    puts "[incr counter]. $decoder"
-
-    foreach prop [dict keys $info] {
-        puts "\t$prop: [dict get $info $prop]"
+        puts "\tmime_type:"
+        foreach m [lsort $mime_type] {
+            puts "\t\t$m"
+        }
     }
 }
 

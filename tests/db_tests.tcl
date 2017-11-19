@@ -37,11 +37,6 @@ foreach album $albums {
     dict for {trackId track} $tracks {
         dict with track {
             puts "\t\t$Track. $Title"
-
-            foreach prop [dict keys $track *] {
-                puts "\t\t\t$prop >>> [set $prop]"
-            }
-
         }
     }
 }

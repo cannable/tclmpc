@@ -13,16 +13,8 @@ proc debug {text} {
 
 mpd connect localhost 6600
 
-set queueTracks [mpd queue info]
-
-set counter -1
-foreach track $queueTracks {
-    debug "queueTracks([incr counter])>'$track'"
-}
-
-foreach track $queueTracks {
-    set title [msg::getValue $track Title]
-    msg::printReply $title $track
+dict for {idx trackInfo} [mpd queue info] {
+    msg::printReply [dict get $trackInfo Title] $trackInfo
 }
 
 mpd disconnect

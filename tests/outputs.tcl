@@ -13,15 +13,8 @@ proc debug {text} {
 
 mpd connect localhost 6600
 
-set outputs [mpd output list]
-
-set counter 0
-dict for {output info} $outputs {
-    puts "[incr counter]. $output"
-
-    foreach prop [dict keys $info] {
-        puts "\t$prop: [dict get $info $prop]"
-    }
+dict for {idx outputInfo} [mpd output list] {
+    msg::printReply [dict get $outputInfo outputname] $outputInfo
 }
 
 mpd disconnect
