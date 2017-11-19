@@ -276,32 +276,32 @@ namespace eval msg {
     proc mkStructuredList {data marker} {
         set output [dict create]
 
-        # Find all file keys
-        set keys [lsearch -exact -all $data $marker]
+        set objectData [dict create]
+        set objectName {}
 
-        debug "keys: $keys"
+        foreach {key value} $data {
+            if {[string match $marker $key]} {
+                # Found new object
+                debug "New object"
+                debug "dict size: '[dict size $objectData]'"
+                set objectName $value
+                if {[dict size $objectData]} {
+                    # Stash data for last object
+                    debug "dict set output $objectName $objectData"
+                    dict set output $objectName $objectData
+                }
 
-        # If we only have one key, return right away
-        if {[llength $keys] == 1} {
-            debug "There's only one item in this list. Returning."
+                # Reset data for new plugin
+                set objectData [dict create]
+                dict set objectData $key $value
+            } else {
+                # Tack on data to this plugin
+                dict lappend objectData $key $value
+            }
+         }
 
-            dict set output [lindex $data 1] $data
-
-            return $output
-        }
-
-        # Guess at the length of each record
-        set recordLength [expr [lindex $keys 1] - 1]
-
-        debug "recordLength: $recordLength"
-
-        # Extract list elements between markers, appending them to output
-        foreach index $keys {
-            set key [lindex $data $index+1]
-            set itemInfo [lrange $data $index [expr $index + $recordLength]]
-
-            dict set output $key $itemInfo
-        }
+        # Stash data for last plugin
+        dict set output $objectName $objectData
 
         return $output
     }
