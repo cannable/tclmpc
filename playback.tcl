@@ -269,7 +269,7 @@ namespace eval mpd {
     #           Returns 0 if the seek was successful, 1 otherwise.
     #
     proc seekTo {p} {
-        set elapsed [msg::getValue [mpd info currentsong] elapsed]
+        set elapsed [msg::getValue [mpd info status] elapsed]
         set offset [expr {$p - $elapsed}]
 
         return [mpd seek $offset]
