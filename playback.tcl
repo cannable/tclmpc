@@ -222,7 +222,8 @@ namespace eval mpd {
 
     # mpd::seek --
     #
-    #           Seek in the current song
+    #           Seek to a position relative to the current position in the
+    #           current song
     #
     # Arguments:
     #           s   Seconds to seek. Can be negative and fractional.
@@ -238,10 +239,40 @@ namespace eval mpd {
 
         # Likewise, bail if we didn't get a double in s
         if {![string is double $s]} {
-            error "Seek seconds must be a double.'
+            return -code error -errorinfo "Seek seconds must be a double.'
+        }
+
+        # Perform a few more sanity checks
+        set duration [msg::getValue [mpd info currentsong] duration]
+        set elapsed [msg::getValue [mpd info status] elapsed]
+        set target [expr {$elapsed + $s}]
+
+        if {($target > $duration) || $target < 0} {
+            return -code error -errorinfo [format \
+                {Attempt to seek %s sec from %s sec, places the target \
+                position (%s) outside the song boundaries (0 - %s).} \
+                $s $elapsed $target $duration]
         }
 
         return [comm::simpleSendCommand "seekcur $s"]
+    }
+
+
+    # mpd::seekTo --
+    #
+    #           Seek to an absolute position in the current song
+    #
+    # Arguments:
+    #           p   Target position
+    #
+    # Results:
+    #           Returns 0 if the seek was successful, 1 otherwise.
+    #
+    proc seekTo {p} {
+        set elapsed [msg::getValue [mpd info currentsong] elapsed]
+        set offset [expr {$p - $elapsed}]
+
+        return [mpd seek $offset]
     }
 
 

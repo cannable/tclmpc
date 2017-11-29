@@ -172,6 +172,15 @@ Arguments:
 Seek forward or backward the passed number of seconds in the current song. The
 argument, s, must be a double and can be negative (to seek backwards).
 
+#### mpd seekTo {s}
+
+Arguments:
+
+* p - position, "fractions allowed"
+
+Same as seek, except seekTo seeks to an absolute position in the current song
+(seek changes the position relatively, based on the current position).
+
 ### Options
 
 Common variables:
