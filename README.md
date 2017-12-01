@@ -169,17 +169,12 @@ Arguments:
 
 * s - seconds, "fractions allowed"
 
-Seek forward or backward the passed number of seconds in the current song. The
-argument, s, must be a double and can be negative (to seek backwards).
+Seek forward or backward in the current song. This follows the rules of MPD's
+seekcur: you can seek to an absolute or relative position by changing what you
+pass as 's'. To seek to an absolute position, pass a straight double or int. To
+seek to a relative position, prefix your double/int with a plus ("-") or minus
+("-") sign.
 
-#### mpd seekTo {s}
-
-Arguments:
-
-* p - position, "fractions allowed"
-
-Same as seek, except seekTo seeks to an absolute position in the current song
-(seek changes the position relatively, based on the current position).
 
 ### Options
 
