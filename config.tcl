@@ -197,26 +197,25 @@ namespace eval mpd::config {
     #           vol Output volume. 0-100
     #
     # Results:
+    #           NOTE: If you pass a double, this will int the fractional value.
     #           Returns 0 if the volume change was successful; 1 otherwise
     #
     proc setvol {vol} {
-        # Validate 'vol'
-        if {![string is integer $vol]} {
-            return 1
-        }
+        # Cast target volume to an integer
+        set target [expr {int($vol)}]
 
+        # Bail immediately if the volume isn't 0-100
         if {($vol<0) | ($vol>100)} {
-            return 1
+            return -code error -errorinfo "Volume, '$vol', must be 0-100."
         }
 
         # Send the config change command
-        set msg [comm::sendCommand "setvol $vol"]
+        set msg [comm::sendCommand "setvol $target"]
 
         # Verify the config change happened
         set mpdvol [msg::getValue [mpd info status] volume]
-        if {$mpdvol!=$vol} {
-            debug "Failed to set volume"
-            return 1
+        if {$mpdvol!=$target} {
+            return -code error -errorinfo "Failed to set volume to '$target'."
         }
 
         debug "Succeeded in setting volume"
