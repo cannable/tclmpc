@@ -236,13 +236,13 @@ namespace eval mpd {
     #
     proc seek {s} {
         # Immediately bail if we're not playing
-        if {![mpd is playing]} {
-            return 1
+        if {[mpd is stopped]} {
+            return -code error -errorinfo "Can't seek while MPD is stopped."
         }
 
         # Likewise, bail if we didn't get a double in s
         if {![string is double $s]} {
-            return -code error -errorinfo "Seek seconds must be a double.'
+            return -code error -errorinfo "Seek seconds must be a double."
         }
 
         return [comm::simpleSendCommand "seekcur $s"]
