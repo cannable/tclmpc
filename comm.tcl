@@ -146,7 +146,8 @@ namespace eval comm {
             return 0
         }
 
-        return 1
+        return -code error \
+            -errorinfo [format {Failed to invoke %s {*}%s.} $command $args]
     }
 
 

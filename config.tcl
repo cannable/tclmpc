@@ -50,7 +50,7 @@ namespace eval mpd::config {
     proc consume {on} {
         # Validate 'on'
         if {![string is boolean $on]} {
-            return 1
+            return -code error -errorinfo "'$on' must be boolean."
         }
 
         # Since we can take different booleans, send MPD 1 or 0
@@ -66,8 +66,8 @@ namespace eval mpd::config {
         # Verify the config change happened
         set consume [msg::getValue [mpd info status] consume]
         if {$consume!=$sendValue} {
-            debug "Failed to change consume"
-            return 1
+            return -code error \
+                -errorinfo "Failed to change consume to '$sendValue'."
         }
 
         debug "Succeeded in changing consume"
@@ -88,7 +88,7 @@ namespace eval mpd::config {
     proc random {on} {
         # Validate 'on'
         if {![string is boolean $on]} {
-            return 1
+            return -code error -errorinfo "'$on' must be boolean."
         }
 
         # Since we can take different booleans, send MPD 1 or 0
@@ -104,8 +104,8 @@ namespace eval mpd::config {
         # Verify the config change happened
         set consume [msg::getValue [mpd info status] random]
         if {$consume!=$sendValue} {
-            debug "Failed to change random"
-            return 1
+            return -code error \
+                -errorinfo "Failed to change random to '$sendValue'."
         }
 
         debug "Succeeded in changing random"
@@ -126,7 +126,7 @@ namespace eval mpd::config {
     proc repeat {on} {
         # Validate 'on'
         if {![string is boolean $on]} {
-            return 1
+            return -code error -errorinfo "'$on' must be boolean."
         }
 
         # Since we can take different booleans, send MPD 1 or 0
@@ -142,8 +142,8 @@ namespace eval mpd::config {
         # Verify the config change happened
         set consume [msg::getValue [mpd info status] repeat]
         if {$consume!=$sendValue} {
-            debug "Failed to change repeat"
-            return 1
+            return -code error \
+                -errorinfo "Failed to change repeat to '$sendValue'."
         }
 
         debug "Succeeded in changing repeat"
@@ -164,7 +164,7 @@ namespace eval mpd::config {
     proc single {on} {
         # Validate 'on'
         if {![string is boolean $on]} {
-            return 1
+            return -code error -errorinfo "'$on' must be boolean."
         }
 
         # Since we can take different booleans, send MPD 1 or 0
@@ -180,8 +180,8 @@ namespace eval mpd::config {
         # Verify the config change happened
         set consume [msg::getValue [mpd info status] single]
         if {$consume!=$sendValue} {
-            debug "Failed to change single"
-            return 1
+            return -code error \
+                -errorinfo "Failed to change single to '$sendValue'."
         }
 
         debug "Succeeded in changing single"
@@ -236,7 +236,7 @@ namespace eval mpd::config {
     proc crossfade {s} {
         # Validate 's'
         if {![string is double $s]} {
-            return 1
+            return -code error -errorinfo "$s' must be a double."
         }
 
         # Send the config change command
@@ -246,7 +246,8 @@ namespace eval mpd::config {
         set xfade [msg::getValue [mpd info status] xfade]
         if {$xfade!=$s} {
             debug "Failed to set crossfade duration"
-            return 1
+            return -code error \
+                -errorinfo "Failed to set crossfade duration to '$s'."
         }
 
         debug "Succeeded in setting crossfade duration"
@@ -267,7 +268,8 @@ namespace eval mpd::config {
     proc replaygain {state} {
         # Validate 'state'
         if {[lsearch {off track album auto} $state] < 0} {
-            return 1
+            return -code error \
+                -errorinfo "Replaygain state '$state' is unknown."
         }
 
         # Send the config change command
@@ -278,8 +280,8 @@ namespace eval mpd::config {
 
         set rgstate [msg::getValue $msg replay_gain_state]
         if {[string match $state $rgstate]} {
-            debug "Failed to set replaygain state"
-            return 1
+            return -code error \
+                -errorinfo "Failed to set replaygain state to '$state'."
         }
 
         debug "Succeeded in setting replaygain state"
