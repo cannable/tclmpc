@@ -278,23 +278,41 @@ namespace eval msg {
         set objectName {}
 
         foreach {key value} $data {
+            debug "**********"
+            debug ">key: '$key'"
+            debug ">value: '$value'"
             if {[string match $marker $key]} {
                 # Found new object
+                debug "----------"
                 debug "New object"
+                debug "Object: '$objectData'"
                 debug "dict size: '[dict size $objectData]'"
+
                 set objectName $value
+                debug "Name: '$objectName'"
+                debug "Size: '[dict size $objectData]'"
+
                 if {[dict size $objectData]} {
                     # Stash data for last object
-                    debug "dict set output $objectName $objectData"
-                    dict set output $objectName $objectData
+
+                    # Since we want to stash the last object, get that object's
+                    # name
+                    set prevName [dict get $objectData $marker]
+
+                    debug "Stashing $prevName"
+                    debug "dict set output '$prevName' '$objectData'"
+                    dict set output $prevName $objectData
                 }
 
                 # Reset data for new plugin
                 set objectData [dict create]
                 dict set objectData $key $value
+                debug "Size now: '[dict size $objectData]'"
+
             } else {
                 # Tack on data to this plugin
                 dict lappend objectData $key $value
+                debug "dict lappend objectData '$key' '$value'"
             }
          }
 
