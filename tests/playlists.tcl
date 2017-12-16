@@ -15,8 +15,14 @@ proc debug {text} {
 mpd connect localhost 6600
 
 puts Playlists:
-dict for {idx pInfo} [mpd playlist list] {
-    puts "\t$idx"
+dict for {p pInfo} [mpd playlist list] {
+    puts "\t$p"
+
+    set trackInfo [mpd playlist info $p]
+
+    dict for {idx track} $trackInfo {
+        puts "\t\t$idx - [dict get $track Title]"
+    }
 }
 
 mpd disconnect

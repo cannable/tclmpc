@@ -88,6 +88,11 @@ namespace eval mpd::playlist {
         set cmd [format {listplaylist "%s"} [msg::sanitize $name]]
         set msg [comm::sendCommand {*}$cmd]
 
+        # The playlist contains no tracks, return an empty dict
+        if {[string match {OK*} $msg]} {
+            return [dict create]
+        }
+
         set tracks [msg::mkTrackInfo $msg]
 
         # Step 2: Get metadata
