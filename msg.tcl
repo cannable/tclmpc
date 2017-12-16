@@ -187,7 +187,7 @@ namespace eval msg {
                 debug "dict size: '[dict size $trackData]'"
                 if {[dict size $trackData]} {
                     # Stash data for last track
-                    debug "dict set output [incr counter] $trackData"
+                    debug "dict set output \[incr counter\] $trackData"
                     dict set output [incr counter] $trackData
                 }
 
