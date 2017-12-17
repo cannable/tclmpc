@@ -409,6 +409,15 @@ passed, verbatim. to the message sent to MPD.
 Lists objects by passed tag criteria. The contents of args are passed,
 verbatim. to the message sent to MPD.
 
+This proc has limited support for grouping. If you pass a single group
+directive, as in "Album group Artist", you will get a dict, keyed on whatever
+you passed for group. In this example, you would get a dict of lists of Albums
+keyed on Artist.
+
+For the sake of your sanity, if you want to assemble complicated structures of
+DB data, keep the arguments you pass to this proc simple and call it several
+times.
+
 #### mpd db update {args}
 
 Scan for modified files and update the DB. Scope of the scan is controlled by

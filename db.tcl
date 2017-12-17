@@ -95,12 +95,36 @@ namespace eval mpd::db {
     #           Returns a list of results from the query
     #
     proc list {args} {
-        set query [msg::sanitize $args]
-        set msg [comm::sendCommand "list $query"]
-        set results {}
+        set groupIdx [lsearch $args group]
 
-        foreach {type item} $msg {
-            lappend results $item
+        # Look for a group directive. If there isn't one, we can build a
+        # straight-up list
+        if {$groupIdx == -1} {
+            set query [msg::sanitize $args]
+            set msg [comm::sendCommand "list $query"]
+            set results {}
+
+            foreach {type item} $msg {
+                lappend results $item
+            }
+        } else {
+            # We need to build a multi-dimensional object
+            set groupBy [lrange $args [expr $groupIdx + 1] end]
+            set what [lrange $args 0 [expr $groupIdx - 1]]
+
+            set query [msg::sanitize $args]
+            set msg [comm::sendCommand "list $query"]
+            set results [dict create]
+
+            # Assemble two-level dict
+            set cachedItem {}
+            foreach {type item} $msg {
+                if {$type eq $groupBy} {
+                    dict lappend results $item $cachedItem
+                } else {
+                    set cachedItem $item
+                }
+            }
         }
 
         return $results
