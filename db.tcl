@@ -165,6 +165,40 @@ namespace eval mpd::db {
     }
 
 
+    # mpd::db::rescan --
+    #
+    #           Scans all files in the passed path and update the DB. Scope of
+    #           the scan is controlled by args: if nothing is passed,
+    #           everything is scanned. Pass a file or directory to scan a
+    #           fragment of the library.
+    #
+    # Arguments:
+    #           args    URI to update
+    #
+    # Results:
+    #           The entire DB, or the passed URI, will be rescanned by MPD.
+    #           Returns a jobid.
+    #
+    proc rescan {args} {
+        if {[llength $args] > 1} {
+            error "Update must receive 0 or 1 arguments."
+        }
+
+        if {[llength $args]} {
+            set cmd "rescan [msg::sanitize $args]"
+        } else {
+            set cmd rescan
+        }
+
+        set msg [comm::sendCommand $cmd]
+
+        set jobid [msg::getValue $msg updating_db]
+
+        debug "jobid: $jobid"
+        return $jobid
+    }
+
+
     namespace eval get {
 
 

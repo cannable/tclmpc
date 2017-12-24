@@ -424,6 +424,12 @@ Scan for modified files and update the DB. Scope of the scan is controlled by
 args: if nothing is passed, everything is scanned. Pass a file or directory to
 scan a fragment of the library.
 
+#### mpd db rescan {args}
+
+Scan all files and update the DB. Scope of the scan is controlled by args: if
+nothing is passed, everything is scanned. Pass a file or directory to scan a
+fragment of the library.
+
 #### mpd db get albumsByArtist {artist}
 
 Convenience procedure to perform a search of the MPD DB.
@@ -528,12 +534,6 @@ Sets track priority
 Swap a and b in the queue
 
 ### Database
-
-#### mpd db rescan {args}
-
-Scan all files and update the DB. Scope of the scan is controlled by args: if
-nothing is passed, everything is scanned. Pass a file or directory to scan a
-fragment of the library.
 
 #### mpd db albumart {URI}
 
