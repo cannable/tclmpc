@@ -165,6 +165,47 @@ namespace eval mpd::db {
     }
 
 
+    namespace eval get {
+
+
+        # This entire namespace is made up of convenience functions
+
+
+        # mpd::db::get::albumsByArtist --
+        #
+        #           Get a list of albums for the passed artist
+        #
+        # Arguments:
+        #           artist  Artist to look up
+        #
+        # Results:
+        #           Returns a list of albums
+        #
+        proc albumsByArtist {artist} {
+            return [mpd db list Album Artist $artist]
+        }
+
+
+        # mpd::db::get::tracksByAlbum --
+        #
+        #           Get a list of tracks for the passed album
+        #
+        # Arguments:
+        #           album  Album to look up
+        #
+        # Results:
+        #           Returns a list of tracks
+        #
+        proc tracksByAlbum {album} {
+            return [mpd db find Album $album]
+        }
+
+
+        namespace export *
+        namespace ensemble create
+    }
+
+
     namespace export *
     namespace ensemble create
 }

@@ -424,6 +424,14 @@ Scan for modified files and update the DB. Scope of the scan is controlled by
 args: if nothing is passed, everything is scanned. Pass a file or directory to
 scan a fragment of the library.
 
+#### mpd db get albumsByArtist {artist}
+
+Convenience procedure to perform a search of the MPD DB.
+
+#### mpd db get tracksByAlbum {album}
+
+Convenience procedure to perform a search of the MPD DB.
+
 ### Outputs
 
 Common variables:
@@ -534,17 +542,10 @@ Returns the album art binary blog from the MPD DB.
 ## Requires Further Planning
 ### Database
 #### mpd db count {TAG NEEDLE}
-#### mpd db get albumsByArtist {artist}
 
 #### mpd playlist insert {name}
 
 Load the contents of the passed playlist into the playback queue, wiping the existing queue.
-
-Convenience procedure to perform a search of the MPD DB.
-
-#### mpd db get tracksByAlbum {album}
-
-Convenience procedure to perform a search of the MPD DB.
 
 ## Not Implementing
 
