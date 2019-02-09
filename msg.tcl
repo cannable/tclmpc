@@ -180,26 +180,34 @@ namespace eval msg {
         set trackData [dict create]
         set counter -1
 
-        foreach {key value} $data {
-            if {[string match file $key]} {
-                # Found new track
-                debug "New track"
-                debug "dict size: '[dict size $trackData]'"
-                if {[dict size $trackData]} {
-                    # Stash data for last track
-                    debug "dict set output \[incr counter\] $trackData"
-                    dict set output [incr counter] $trackData
+        debug "\$data == '$data'"
+
+        if {![string match OK $data]} {
+            foreach {key value} $data {
+                if {[string match file $key]} {
+                    # Found new track
+                    debug "New track"
+                    debug "dict size: '[dict size $trackData]'"
+                    if {[dict size $trackData]} {
+                        # Stash data for last track
+                        debug "dict set output \[incr counter\] $trackData"
+                        dict set output [incr counter] $trackData
+                    }
+
+                    # Reset data for new track
+                    set trackData [dict create]
+                    dict set trackData $key $value
+                } else {
+                    # Tack on data to this track
+                    dict lappend trackData $key $value
                 }
+             }
+         } else {
+            # There is nothing in the queue
+            return $trackData
+        }
 
-                # Reset data for new track
-                set trackData [dict create]
-                dict set trackData $key $value
-            } else {
-                # Tack on data to this track
-                dict lappend trackData $key $value
-            }
-         }
-
+        debug "\$trackData == '$trackData'"
         # Stash data for last track
         dict set output [incr counter] $trackData
 
